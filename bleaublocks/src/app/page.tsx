@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
 import SignupModal from "./components/SignupModal";
 import Navbar from "./components/Navbar";
@@ -17,7 +16,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--background)] text-[var(--foreground)]">
+    <div className="min-h-screen flex flex-col bg-[var(--background)] text-[var(--foreground)] pb-20">
       <header className="shadow-sm p-6 text-center bg-[var(--thirdcolor)] text-[var(--background)]">
         <div className="flex flex-col items-center space-y-2">
           <div className="w-20 h-20 rounded-full flex items-center justify-center text-4xl font-bold bg-[var(--foreground)] text-[var(--thirdcolor)]">
@@ -35,7 +34,7 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="flex-1 p-6 pb-24 bg-[var(--background)] text-[var(--foreground)]">
+      <main className="flex-1 p-6  bg-[var(--background)] text-[var(--foreground)]">
         <div className="max-w-md mx-auto rounded-lg shadow-md p-6 mb-6 bg-[var(--foreground)] text-[var(--background)]">
           <h2 className="text-xl font-semibold mb-4 text-center">
             Connexion (optionnelle)
@@ -66,7 +65,7 @@ export default function Home() {
               Se connecter
             </button>
           </form>
-          
+
           <div className="flex space-x-3 mt-4">
             <button
               onClick={() => setIsSignupModalOpen(true)}
@@ -75,7 +74,7 @@ export default function Home() {
               S'inscrire
             </button>
           </div>
-          
+
           <p className="text-sm opacity-70 text-center mt-4">
             Pas de compte ? Continuez sans vous connecter !
           </p>
@@ -92,9 +91,9 @@ export default function Home() {
 
       <Navbar />
 
-      <SignupModal 
-        isOpen={isSignupModalOpen} 
-        onClose={() => setIsSignupModalOpen(false)} 
+      <SignupModal
+        isOpen={isSignupModalOpen}
+        onClose={() => setIsSignupModalOpen(false)}
       />
     </div>
   );

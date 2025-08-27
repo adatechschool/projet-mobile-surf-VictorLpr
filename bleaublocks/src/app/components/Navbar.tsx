@@ -1,18 +1,20 @@
 "use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const pathname = usePathname();
 
   return (
-    <nav className="flex-shrink-0 border-t px-4 py-3 bg-[var(--foreground)] border-[var(--thirdcolor)]">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t px-4 py-3 bg-[var(--foreground)] border-[var(--thirdcolor)]">
       <div className="flex justify-around items-center">
         <Link
           href="/"
           className={`flex flex-col items-center space-y-1 hover:opacity-80 transition-opacity ${
-            pathname === '/' ? 'text-[var(--fourthcolor)]' : 'text-[var(--background)]'
+            pathname === "/"
+              ? "text-[var(--fourthcolor)]"
+              : "text-[var(--background)]"
           }`}
         >
           <svg
@@ -34,7 +36,9 @@ export default function Navbar() {
         <Link
           href="/map"
           className={`flex flex-col items-center space-y-1 hover:opacity-80 transition-opacity ${
-            pathname === '/map' ? 'text-[var(--fourthcolor)]' : 'text-[var(--background)]'
+            pathname === "/map"
+              ? "text-[var(--fourthcolor)]"
+              : "text-[var(--background)]"
           }`}
         >
           <svg
@@ -56,7 +60,9 @@ export default function Navbar() {
         <Link
           href="/blocs"
           className={`flex flex-col items-center space-y-1 hover:opacity-80 transition-opacity ${
-            pathname === '/blocs' ? 'text-[var(--fourthcolor)]' : 'text-[var(--background)]'
+            pathname === "/blocs"
+              ? "text-[var(--fourthcolor)]"
+              : "text-[var(--background)]"
           }`}
         >
           <svg
@@ -78,7 +84,9 @@ export default function Navbar() {
         <Link
           href="/profil"
           className={`flex flex-col items-center space-y-1 hover:opacity-80 transition-opacity ${
-            pathname === '/profil' ? 'text-[var(--fourthcolor)]' : 'text-[var(--background)]'
+            pathname === "/profil"
+              ? "text-[var(--fourthcolor)]"
+              : "text-[var(--background)]"
           }`}
         >
           <svg

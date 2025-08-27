@@ -144,7 +144,7 @@ export default function BlocDetailModal({
               ))}
 
               {comments.length === 0 && (
-                <p className="text-sm opacity-70 text-center py-4">
+                <p className="text-sm opacity-70 text-center text-[var(--foreground)] py-4">
                   Aucun commentaire pour le moment. Soyez le premier à commenter
                   !
                 </p>
