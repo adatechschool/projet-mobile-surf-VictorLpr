@@ -97,7 +97,6 @@ export default function MapPage() {
         "top-right"
       );
 
-      // Ajouter les marqueurs pour chaque bloc
       mockBlocs.forEach((bloc) => {
         const popupHTML = `
           <div style="text-align: center; padding: 8px; cursor: pointer;" data-bloc-id="${
@@ -130,7 +129,6 @@ export default function MapPage() {
           .setPopup(popup)
           .addTo(map.current!);
 
-        // Gestion du clic sur le marqueur pour ouvrir la modal
         marker.getElement().addEventListener("click", () => {
           setTimeout(() => {
             const popupElement = document.querySelector(
@@ -226,7 +224,6 @@ export default function MapPage() {
 
       <Navbar />
 
-      {/* Modal de détail du bloc */}
       <BlocDetailModal
         bloc={selectedBloc}
         isOpen={isModalOpen}

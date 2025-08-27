@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 import Navbar from "../components/Navbar";
 import BlocDetailModal from "../components/BlocDetailModal";
@@ -98,7 +97,6 @@ export default function BlocsPage() {
             </div>
           </div>
 
-          {/* Blocs en projet */}
           <div>
             <h2 className="text-lg font-semibold mb-4 text-[var(--fourthcolor)]">
               Projets en cours
@@ -151,7 +149,6 @@ export default function BlocsPage() {
 
       <Navbar />
 
-      {/* Modal de détail du bloc */}
       <BlocDetailModal
         bloc={selectedBloc}
         isOpen={isModalOpen}

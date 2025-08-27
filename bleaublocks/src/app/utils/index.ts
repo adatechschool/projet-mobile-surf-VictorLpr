@@ -10,8 +10,8 @@ export const getLevelColor = (level: string): string => {
 
 export const getLevelColorHex = (level: string): string => {
   const levelNum = parseInt(level);
-  if (levelNum <= 3) return "#22c55e"; // vert
-  if (levelNum <= 5) return "#eab308"; // jaune
-  if (levelNum <= 7) return "#f97316"; // orange
-  return "#ef4444"; // rouge
+  if (levelNum <= 3) return "#22c55e";
+  if (levelNum <= 5) return "#eab308";
+  if (levelNum <= 7) return "#f97316";
+  return "#ef4444";
 };
