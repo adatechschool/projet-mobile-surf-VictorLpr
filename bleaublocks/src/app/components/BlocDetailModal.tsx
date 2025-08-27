@@ -42,7 +42,7 @@ export default function BlocDetailModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-[var(--background)] text-[var(--foreground)] flex flex-col">
+    <div className="fixed inset-0 z-50 bg-[var(--background)] text-[var(--foreground)] flex flex-col ">
       <div className="flex items-center justify-between p-4 bg-[var(--thirdcolor)] text-[var(--background)] shadow-sm flex-shrink-0">
         <button
           onClick={onClose}
@@ -67,7 +67,7 @@ export default function BlocDetailModal({
         <div className="w-20"></div>
       </div>
 
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto scrollbar-hide">
         <div className="p-4 max-w-2xl mx-auto pb-6">
           <div className="mb-4">
             <Image
@@ -129,7 +129,7 @@ export default function BlocDetailModal({
               Commentaires ({comments.length})
             </h3>
 
-            <div className="space-y-3 mb-4 max-h-40 overflow-y-auto text-[var(--background)]">
+            <div className="space-y-3 mb-4 max-h-40 overflow-y-auto text-[var(--background)] scrollbar-hide">
               {comments.map((comment) => (
                 <div
                   key={comment.id}

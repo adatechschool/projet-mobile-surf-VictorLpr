@@ -27,10 +27,10 @@ export default function BlocsPage() {
   const pendingBlocs = mockBlocs.filter((bloc) => !bloc.completed);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--background)] text-[var(--foreground)] pb-20">
+    <div className="min-h-screen flex flex-col bg-[var(--background)] text-[var(--foreground)] pb-20 scrollbar-hide">
       <PageHeader title="Mes Blocs" />
 
-      <main className="flex-1 p-6">
+      <main className="flex-1 p-6 scrollbar-hide">
         <div className="max-w-2xl mx-auto">
           <div className="grid grid-cols-2 gap-4 mb-6">
             <StatCard value={completedBlocs.length} label="Blocs réalisés" />
