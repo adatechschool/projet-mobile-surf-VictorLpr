@@ -35,7 +35,8 @@ export const mockBlocs: Bloc[] = [
   {
     id: 2,
     name: "Le Toit de la Tortue",
-    image: "/web-app-manifest-512x512.png",
+    image:
+      "https://bleau.info/images/etienne.beauchataud/LongsVauxPretention.jpg",
     level: "6b",
     startPosition: "Debout, mains sur les prises du toit",
     description:
