@@ -5,6 +5,7 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import Navbar from "../components/Navbar";
 import BlocDetailModal from "../components/BlocDetailModal";
+import PageHeader from "../components/PageHeader";
 import { Bloc } from "../types";
 import { mockBlocs } from "../data/mockBlocs";
 import { getLevelColorHex } from "../utils";
@@ -176,10 +177,8 @@ export default function MapPage() {
   }, []);
 
   return (
-    <div className="h-screen flex flex-col bg-[var(--background)]">
-      <header className="flex-shrink-0 shadow-sm p-4 text-center bg-[var(--thirdcolor)] text-[var(--background)]">
-        <h1 className="text-xl font-bold">Carte de Fontainebleau</h1>
-      </header>
+    <div className="h-screen flex flex-col bg-[var(--background)] pb-20">
+      <PageHeader title="Carte de Fontainebleau" />
 
       <div className="flex-1 relative overflow-hidden">
         {isLoading && (
