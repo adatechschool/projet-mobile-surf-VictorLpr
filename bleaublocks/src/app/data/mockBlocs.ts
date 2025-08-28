@@ -4,7 +4,8 @@ export const mockBlocs: Bloc[] = [
   {
     id: 1,
     name: "À Fleur de Peau",
-    image: "/web-app-manifest-512x512.png",
+    image:
+      "https://s3.eu-west-3.amazonaws.com/bleauinfoimages/jean.pierre.roudneff/LEpaulecopy.jpg",
     level: "7a",
     startPosition:
       "Assis, main droite sur la prise en réglette, main gauche sur le petit trou",
@@ -60,7 +61,7 @@ export const mockBlocs: Bloc[] = [
   {
     id: 3,
     name: "La Dalle aux Écureuils",
-    image: "/web-app-manifest-512x512.png",
+    image: "https://bleau.info/images/bart.van.raaij/RempartPepperAssis.jpg",
     level: "5c",
     startPosition: "Assis, mains en bas de la dalle",
     description:
@@ -76,7 +77,8 @@ export const mockBlocs: Bloc[] = [
   {
     id: 4,
     name: "L'Angle Allain",
-    image: "/web-app-manifest-512x512.png",
+    image:
+      "https://s3.eu-west-3.amazonaws.com/bleauinfoimages/jean.pierre.roudneff/BigGoldencopy_3.jpg",
     level: "6a",
     startPosition: "Debout, mains sur l'arête",
     description:
@@ -99,7 +101,7 @@ export const mockBlocs: Bloc[] = [
   {
     id: 5,
     name: "Préhension",
-    image: "/web-app-manifest-512x512.png",
+    image: "https://bleau.info/images/bart.van.raaij/BigBoss.jpg",
     level: "8a",
     startPosition: "Assis, mains sur les prises basses",
     description:

@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Bloc, Comment } from "../types";
 import { getLevelColor } from "../utils";
@@ -70,11 +69,9 @@ export default function BlocDetailModal({
       <div className="flex-1 overflow-y-auto scrollbar-hide">
         <div className="p-4 max-w-2xl mx-auto pb-6">
           <div className="mb-4">
-            <Image
+            <img
               src={bloc.image}
               alt={bloc.name}
-              width={600}
-              height={400}
               className="w-full h-64 object-cover rounded-lg"
             />
           </div>
@@ -124,12 +121,12 @@ export default function BlocDetailModal({
             <p className="text-sm leading-relaxed">{bloc.description}</p>
           </div>
 
-          <div className="mb-6">
+          <div className="mb-6 ">
             <h3 className="font-semibold text-[var(--fourthcolor)] mb-4">
               Commentaires ({comments.length})
             </h3>
 
-            <div className="space-y-3 mb-4 max-h-40 overflow-y-auto text-[var(--background)] scrollbar-hide">
+            <div className="space-y-3 mb-4 p-2 rounded-lg max-h-40 overflow-y-auto text-[var(--background)] bg-[var(--fourthcolor)] scrollbar-hide">
               {comments.map((comment) => (
                 <div
                   key={comment.id}
