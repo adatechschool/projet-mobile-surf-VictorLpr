@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import SignupModal from "./components/SignupModal";
-import Navbar from "./components/Navbar";
+import SignupModal from "../components/SignupModal";
+import Navbar from "../components/Navbar";
 
 export default function Home() {
   const [email, setEmail] = useState("");

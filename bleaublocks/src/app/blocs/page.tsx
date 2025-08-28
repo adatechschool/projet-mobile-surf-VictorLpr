@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import Navbar from "../components/Navbar";
-import BlocDetailModal from "../components/BlocDetailModal";
-import PageHeader from "../components/PageHeader";
-import StatCard from "../components/StatCard";
-import BlocCard from "../components/BlocCard";
-import { Bloc } from "../types";
+import Navbar from "../../components/Navbar";
+import BlocDetailModal from "../../components/BlocDetailModal";
+import PageHeader from "../../components/PageHeader";
+import StatCard from "../../components/StatCard";
+import BlocCard from "../../components/BlocCard";
+import { Bloc } from "../../types";
 import { mockBlocs } from "../data/mockBlocs";
 
 export default function BlocsPage() {

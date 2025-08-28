@@ -3,12 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import Navbar from "../components/Navbar";
-import BlocDetailModal from "../components/BlocDetailModal";
-import PageHeader from "../components/PageHeader";
-import { Bloc } from "../types";
-import { mockBlocs } from "../data/mockBlocs";
-import { getLevelColorHex } from "../utils";
+import Navbar from "../../components/Navbar";
+import BlocDetailModal from "../../components/BlocDetailModal";
+import PageHeader from "../../components/PageHeader";
+import { Bloc } from "../../types";
+import { mockBlocs } from "../../data/mockBlocs";
+import { getLevelColorHex } from "../../utils";
 
 export default function MapPage() {
   const mapContainer = useRef<HTMLDivElement>(null);
