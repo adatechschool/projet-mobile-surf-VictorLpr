@@ -1,24 +1,21 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import mapboxgl from "mapbox-gl";
+import { useState } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
-import Navbar from "../../components/Navbar";
-import BlocDetailModal from "../../components/BlocDetailModal";
-import PageHeader from "../../components/PageHeader";
-import { Bloc } from "../../types";
-import { mockBlocs } from "../../data/mockBlocs";
-import { getLevelColorHex } from "../../utils";
+import Navbar from "@/components/Navbar";
+import BlocDetailModal from "@/components/BlocDetailModal";
+import PageHeader from "@/components/PageHeader";
+import { Bloc } from "@/types";
+import { mockBlocs } from "@/data/mockBlocs";
+import { useMapbox } from "@/hooks/useMapbox";
+
+const MAP_CONFIG = {
+  lng: 2.6722,
+  lat: 48.4199,
+  zoom: 12,
+};
 
 export default function MapPage() {
-  const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<mapboxgl.Map | null>(null);
-
-  const [lng, setLng] = useState(2.6722);
-  const [lat, setLat] = useState(48.4199);
-  const [zoom, setZoom] = useState(12);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [selectedBloc, setSelectedBloc] = useState<Bloc | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -32,123 +29,13 @@ export default function MapPage() {
     setSelectedBloc(null);
   };
 
-  useEffect(() => {
-    mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
-
-    if (!mapContainer.current) return;
-
-    try {
-      setIsLoading(true);
-      setError(null);
-
-      map.current = new mapboxgl.Map({
-        container: mapContainer.current,
-        style: "mapbox://styles/mapbox/outdoors-v12",
-        center: [lng, lat],
-        zoom: zoom,
-      });
-
-      map.current.on("load", () => {
-        console.log("Carte chargée avec succès");
-        setIsLoading(false);
-      });
-
-      map.current.on("error", (e) => {
-        console.error("Erreur Mapbox:", e);
-        setError("Erreur lors du chargement de la carte");
-        setIsLoading(false);
-      });
-
-      map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
-
-      map.current.addControl(
-        new mapboxgl.GeolocateControl({
-          positionOptions: {
-            enableHighAccuracy: true,
-          },
-          trackUserLocation: true,
-          showUserHeading: true,
-        }),
-        "top-right"
-      );
-
-      mockBlocs.forEach((bloc) => {
-        const popupHTML = `
-          <div style="text-align: center; padding: 8px; cursor: pointer;" data-bloc-id="${
-            bloc.id
-          }">
-            <h3 style="color: black; margin: 0 0 4px 0; font-weight: bold; font-size: 14px;">${
-              bloc.name
-            }</h3>
-            <p style="color: #666; margin: 0 0 4px 0; font-size: 12px;">${
-              bloc.location.area
-            }</p>
-            <span style="background: ${getLevelColorHex(
-              bloc.level
-            )}; color: white; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold;">${
-          bloc.level
-        }</span>
-            <p style="color: #444; margin: 4px 0 0 0; font-size: 11px;">Cliquez pour voir les détails</p>
-          </div>
-        `;
-
-        const popup = new mapboxgl.Popup({
-          offset: 25,
-          closeButton: true,
-        }).setHTML(popupHTML);
-
-        const marker = new mapboxgl.Marker({
-          color: getLevelColorHex(bloc.level),
-        })
-          .setLngLat([bloc.location.lng, bloc.location.lat])
-          .setPopup(popup)
-          .addTo(map.current!);
-
-        marker.getElement().addEventListener("click", () => {
-          setTimeout(() => {
-            const popupElement = document.querySelector(
-              `[data-bloc-id="${bloc.id}"]`
-            );
-            if (popupElement) {
-              popupElement.addEventListener("click", () => {
-                handleBlocClick(bloc);
-              });
-            }
-          }, 100);
-        });
-      });
-
-      map.current.on("move", () => {
-        if (map.current) {
-          const newLng = parseFloat(map.current.getCenter().lng.toFixed(4));
-          const newLat = parseFloat(map.current.getCenter().lat.toFixed(4));
-          const newZoom = parseFloat(map.current.getZoom().toFixed(2));
-
-          setLng(newLng);
-          setLat(newLat);
-          setZoom(newZoom);
-        }
-      });
-    } catch (err) {
-      console.error("Erreur lors de l'initialisation de la carte:", err);
-      setError("Impossible d'initialiser la carte");
-      setIsLoading(false);
-    }
-
-    return () => {
-      if (map.current) {
-        try {
-          map.current.remove();
-        } catch (e) {
-          console.warn(
-            "Nettoyage final de la carte:",
-            e instanceof Error ? e.message : "Erreur inconnue"
-          );
-        }
-        map.current = null;
-      }
-    };
-  }, []);
+  const { mapContainer, isLoading, error } = useMapbox({
+    initialLng: MAP_CONFIG.lng,
+    initialLat: MAP_CONFIG.lat,
+    initialZoom: MAP_CONFIG.zoom,
+    blocs: mockBlocs,
+    onBlocClick: handleBlocClick,
+  });
 
   return (
     <div className="h-screen flex flex-col bg-[var(--background)] pb-20">
