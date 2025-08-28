@@ -14,8 +14,8 @@ export default function MapPage() {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
 
-  const [lng, setLng] = useState(2.6076);
-  const [lat, setLat] = useState(48.4084);
+  const [lng, setLng] = useState(2.6722);
+  const [lat, setLat] = useState(48.4199);
   const [zoom, setZoom] = useState(12);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -37,35 +37,9 @@ export default function MapPage() {
 
     if (!mapContainer.current) return;
 
-    const cleanupMap = () => {
-      if (map.current) {
-        try {
-          const canvas = map.current.getCanvas();
-          if (canvas && canvas.parentNode) {
-            map.current.remove();
-          }
-        } catch (e) {
-          console.warn(
-            "Nettoyage de la carte:",
-            e instanceof Error ? e.message : "Erreur inconnue"
-          );
-        }
-        map.current = null;
-      }
-    };
-
-    cleanupMap();
-
     try {
       setIsLoading(true);
       setError(null);
-
-      if (mapContainer.current) {
-        console.log("Dimensions du conteneur:", {
-          width: mapContainer.current.offsetWidth,
-          height: mapContainer.current.offsetHeight,
-        });
-      }
 
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
