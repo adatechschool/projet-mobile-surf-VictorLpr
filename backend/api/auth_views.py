@@ -59,10 +59,9 @@ def login_view(request):
         
         user = authenticate(username=username, password=password)
         if user:
-            # Créer ou récupérer le token
             token, created = Token.objects.get_or_create(user=user)
-            return Response({
-                'token': token.key,
+            
+            response = Response({
                 'user': {
                     'id': user.id,
                     'username': user.username,
@@ -72,6 +71,17 @@ def login_view(request):
                 },
                 'message': 'Connexion réussie'
             }, status=status.HTTP_200_OK)
+            
+            response.set_cookie(
+                'auth_token',
+                token.key,
+                max_age=86400,  # 24 heures
+                httponly=True,
+                secure=False,  # True en production avec HTTPS
+                samesite='Lax'
+            )
+            
+            return response
         else:
             return Response({
                 'error': 'Nom d\'utilisateur ou mot de passe incorrect'
@@ -91,7 +101,6 @@ def register_view(request):
     serializer = RegisterSerializer(data=request.data)
     if serializer.is_valid():
         user = serializer.save()
-        # Créer automatiquement un token pour le nouvel utilisateur
         token, created = Token.objects.get_or_create(user=user)
         
         return Response({
@@ -113,19 +122,26 @@ def register_view(request):
 def logout_view(request):
     """
     POST /api/auth/logout/
-    Déconnexion d'un utilisateur (supprime le token)
-    Header: Authorization: Token <token>
+    Déconnexion d'un utilisateur (supprime le token et le cookie)
     """
     try:
-        # Supprimer le token de l'utilisateur connecté
         request.user.auth_token.delete()
-        return Response({
+        
+        response = Response({
             'message': 'Déconnexion réussie'
         }, status=status.HTTP_200_OK)
+        
+        response.delete_cookie('auth_token')
+        
+        return response
     except:
-        return Response({
+        response = Response({
             'error': 'Erreur lors de la déconnexion'
         }, status=status.HTTP_400_BAD_REQUEST)
+        
+        response.delete_cookie('auth_token')
+        
+        return response
 
 
 @api_view(['GET'])
@@ -188,7 +204,17 @@ def change_password_view(request):
     request.user.auth_token.delete()
     token = Token.objects.create(user=request.user)
     
-    return Response({
-        'token': token.key,
+    response = Response({
         'message': 'Mot de passe changé avec succès'
     })
+    
+    response.set_cookie(
+        'auth_token',
+        token.key,
+        max_age=86400,  # 24 heures
+        httponly=True,
+        secure=False,  # True en production avec HTTPS
+        samesite='Lax'
+    )
+    
+    return response
