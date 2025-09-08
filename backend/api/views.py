@@ -116,15 +116,15 @@ class UserBlocCompletionViewSet(viewsets.ModelViewSet):
     
     def get_queryset(self):
         """
-        Filtrer par utilisateur connecté ou par paramètres
+        Filtrer uniquement par l'utilisateur connecté et par paramètres optionnels
         """
         queryset = super().get_queryset()
-        user_id = self.request.query_params.get('user_id', None)
+        
+        # Toujours filtrer par l'utilisateur connecté
+        queryset = queryset.filter(user=self.request.user)
+        
         bloc_id = self.request.query_params.get('bloc_id', None)
         status_filter = self.request.query_params.get('status', None)
-        
-        if user_id is not None:
-            queryset = queryset.filter(user_id=user_id)
         
         if bloc_id is not None:
             queryset = queryset.filter(bloc_id=bloc_id)
@@ -136,24 +136,19 @@ class UserBlocCompletionViewSet(viewsets.ModelViewSet):
     
     def perform_create(self, serializer):
         """
-        Ajouter l'utilisateur connecté si pas spécifié
+        Toujours utiliser l'utilisateur connecté
         """
-        if 'user' not in serializer.validated_data:
-            serializer.save(user=self.request.user)
-        else:
-            # Permettre de spécifier l'utilisateur dans la requête
-            serializer.save()
+        serializer.save(user=self.request.user)
     
     @action(detail=False, methods=['post'])
     def set_status(self, request):
         """
         POST /user-bloc-completions/set_status/
         Route spéciale pour définir/mettre à jour le statut d'un bloc
-        Body: {"bloc_id": 1, "status": "complété", "user_id": 2 (optionnel)}
+        Body: {"bloc_id": 1, "status": "complété"}
         """
         bloc_id = request.data.get('bloc_id')
         status_value = request.data.get('status')
-        user_id = request.data.get('user_id', request.user.id)
         
         if not bloc_id or not status_value:
             return Response(
@@ -163,7 +158,9 @@ class UserBlocCompletionViewSet(viewsets.ModelViewSet):
         
         # Vérifier que le bloc existe
         bloc = get_object_or_404(Bloc, id=bloc_id)
-        user = get_object_or_404(User, id=user_id)
+        
+        # Toujours utiliser l'utilisateur connecté
+        user = request.user
         
         # Vérifier que le status est valide
         valid_statuses = [choice[0] for choice in UserBlocCompletion.STATUS_CHOICES]
@@ -190,7 +187,7 @@ class UserBlocCompletionViewSet(viewsets.ModelViewSet):
         )
 
 
-class AreaViewSet(viewsets.ReadOnlyModelViewSet):
+class AreaViewSet(viewsets.ModelViewSet):
     """
     ViewSet pour les zones (lecture seule)
     - GET /areas/ : Liste des zones

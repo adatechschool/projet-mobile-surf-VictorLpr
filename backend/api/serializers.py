@@ -49,10 +49,12 @@ class UserBlocCompletionSerializer(serializers.ModelSerializer):
     bloc_name = serializers.CharField(source='bloc.name', read_only=True)
     bloc_level = serializers.CharField(source='bloc.level', read_only=True)
     bloc_area = serializers.CharField(source='bloc.area.name', read_only=True)
+    user_username = serializers.CharField(source='user.username', read_only=True)
     
     class Meta:
         model = UserBlocCompletion
-        fields = ['id', 'user', 'bloc', 'bloc_name', 'bloc_level', 'bloc_area', 'status']
+        fields = ['id', 'user', 'user_username', 'bloc', 'bloc_name', 'bloc_level', 'bloc_area', 'status']
+        read_only_fields = ['user']  # L'utilisateur ne peut pas être modifié via l'API
     
     def create(self, validated_data):
 
