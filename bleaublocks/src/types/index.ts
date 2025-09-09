@@ -1,25 +1,21 @@
 export interface Comment {
   id: number;
-  user: string;
+  user_username: string;
   text: string;
   date: string;
   rating?: number;
 }
 
-export interface Location {
-  lat: number;
-  lng: number;
-  area: string;
-}
-
 export interface Bloc {
   id: number;
   name: string;
-  image: string;
+  img_url: string;
   level: string;
-  startPosition: string;
+  starting_position: string;
   description: string;
-  location: Location;
+  lng: number;
+  lat: number;
+  area_name: string;
   comments: Comment[];
   completed?: boolean;
   completedDate?: string;
