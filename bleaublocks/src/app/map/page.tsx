@@ -6,7 +6,7 @@ import Navbar from "@/components/Navbar";
 import BlocDetailModal from "@/components/BlocDetailModal";
 import PageHeader from "@/components/PageHeader";
 import { Bloc } from "@/types";
-import { mockBlocs } from "@/data/mockBlocs";
+import { useBlocs } from "@/hooks/useBlocs";
 import { useMapbox } from "@/hooks/useMapbox";
 
 const MAP_CONFIG = {
@@ -16,26 +16,35 @@ const MAP_CONFIG = {
 };
 
 export default function MapPage() {
-  const [selectedBloc, setSelectedBloc] = useState<Bloc | null>(null);
+  const [selectedBlocId, setSelectedBlocId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  const { blocs, isLoading: isBlocsLoading, error: blocsError } = useBlocs();
 
   const handleBlocClick = (bloc: Bloc) => {
-    setSelectedBloc(bloc);
+    console.log("Bloc cliqué:", bloc);
+    
+    setSelectedBlocId(bloc.id);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setSelectedBloc(null);
+    setSelectedBlocId(null);
   };
-
-  const { mapContainer, isLoading, error } = useMapbox({
+  console.log("Blocs chargés:", blocs);
+  
+  const { mapContainer, isLoading: isMapLoading, error: mapError } = useMapbox({
     initialLng: MAP_CONFIG.lng,
     initialLat: MAP_CONFIG.lat,
     initialZoom: MAP_CONFIG.zoom,
-    blocs: mockBlocs,
+    blocs: blocs,
     onBlocClick: handleBlocClick,
+    shouldLoad: !isBlocsLoading && !blocsError,
   });
+
+  const isLoading = isBlocsLoading || (isMapLoading && !blocsError);
+  const error = blocsError || mapError;
 
   return (
     <div className="h-screen flex flex-col bg-[var(--background)] pb-20">
@@ -47,7 +56,7 @@ export default function MapPage() {
             <div className="text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--thirdcolor)] mx-auto mb-4"></div>
               <p className="text-[var(--foreground)]">
-                Chargement de la carte...
+                {isBlocsLoading ? "Chargement des blocs..." : "Chargement de la carte..."}
               </p>
             </div>
           </div>
@@ -69,6 +78,11 @@ export default function MapPage() {
                 Erreur de chargement
               </h3>
               <p className="text-[var(--foreground)] opacity-70">{error}</p>
+              {blocsError && (
+                <p className="text-[var(--foreground)] opacity-50 text-sm mt-2">
+                  Vérifiez que le serveur backend est démarré sur le port 8000
+                </p>
+              )}
               <button
                 onClick={() => window.location.reload()}
                 className="mt-4 px-4 py-2 bg-[var(--thirdcolor)] text-[var(--background)] rounded-lg hover:opacity-80 transition-opacity"
@@ -85,7 +99,7 @@ export default function MapPage() {
       <Navbar />
 
       <BlocDetailModal
-        bloc={selectedBloc}
+        blocId={selectedBlocId}
         isOpen={isModalOpen}
         onClose={handleCloseModal}
       />

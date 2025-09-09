@@ -9,6 +9,7 @@ interface UseMapboxOptions {
   initialZoom: number;
   blocs: Bloc[];
   onBlocClick: (bloc: Bloc) => void;
+  shouldLoad?: boolean; 
 }
 
 export const useMapbox = ({
@@ -17,14 +18,24 @@ export const useMapbox = ({
   initialZoom,
   blocs,
   onBlocClick,
+  shouldLoad = true,
 }: UseMapboxOptions) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
+  const markersRef = useRef<mapboxgl.Marker[]>([]);
 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!shouldLoad) {
+      setIsLoading(true);
+    }
+  }, [shouldLoad]);
+
+  useEffect(() => {
+    if (!shouldLoad) return;
+    
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
     if (!mapContainer.current) return;
@@ -52,8 +63,6 @@ export const useMapbox = ({
       });
 
       addMapControls(map.current);
-
-      addBlocMarkers(blocs, map.current, onBlocClick);
     } catch (err) {
       console.error("Erreur lors de l'initialisation de la carte:", err);
       setError("Impossible d'initialiser la carte");
@@ -63,7 +72,7 @@ export const useMapbox = ({
     return () => {
       if (map.current) {
         try {
-          console.log("toto");
+          console.log("Nettoyage de la carte");
           map.current.remove();
         } catch (e) {
           console.warn(
@@ -74,7 +83,18 @@ export const useMapbox = ({
         map.current = null;
       }
     };
-  }, []);
+  }, [initialLng, initialLat, initialZoom, shouldLoad]);
+
+  useEffect(() => {
+    if (!map.current || isLoading) return;
+
+    markersRef.current.forEach((marker) => marker.remove());
+    markersRef.current = [];
+
+    if (blocs && blocs.length > 0) {
+      markersRef.current = addBlocMarkers(blocs, map.current, onBlocClick);
+    }
+  }, [blocs, onBlocClick, isLoading]);
 
   return {
     mapContainer,

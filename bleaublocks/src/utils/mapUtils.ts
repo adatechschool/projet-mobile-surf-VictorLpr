@@ -11,7 +11,7 @@ export const createPopupHTML = (bloc: Bloc): string => {
         bloc.name
       }</h3>
       <p style="color: #666; margin: 0 0 4px 0; font-size: 12px;">${
-        bloc.location.area
+        bloc.area_name
       }</p>
       <span style="background: ${getLevelColorHex(
         bloc.level
@@ -42,16 +42,18 @@ export const createBlocMarker = (
   const marker = new mapboxgl.Marker({
     color: getLevelColorHex(bloc.level),
   })
-    .setLngLat([bloc.location.lng, bloc.location.lat])
+    .setLngLat([bloc.lng, bloc.lat])
     .setPopup(popup)
     .addTo(map);
 
-  marker.on("click", () => {
+  popup.on('open', () => {
     setTimeout(() => {
-      const popupElement = marker.getPopup();
+      const popupElement = document.querySelector(`[data-bloc-id="${bloc.id}"]`);
       if (popupElement) {
-        popupElement.on("click", () => {
+        popupElement.addEventListener('click', () => {
+          console.log("Popup cliquée:", bloc.name);
           onBlocClick(bloc);
+          popup.remove();
         });
       }
     }, 100);
