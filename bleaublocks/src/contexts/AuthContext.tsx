@@ -52,8 +52,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           id: userData.id,
           name: userData.username,
           email: userData.email,
-          completedBlocs: [], // Ces données peuvent être récupérées depuis le backend plus tard
-          favoriteBlocs: [],
         });
       } else {
         setUser(null);
@@ -85,8 +83,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           id: data.user.id,
           name: data.user.username,
           email: data.user.email,
-          completedBlocs: [],
-          favoriteBlocs: [],
         });
 
         return { success: true };
@@ -118,8 +114,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           id: data.user.id,
           name: data.user.username,
           email: data.user.email,
-          completedBlocs: [],
-          favoriteBlocs: [],
         });
 
         return { success: true };

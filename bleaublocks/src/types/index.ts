@@ -17,7 +17,7 @@ export interface Bloc {
   lat: number;
   area_name: string;
   comments: Comment[];
-  completed?: boolean;
+  user_completion_status?: 'none' | 'en projet' | 'complété' | null;
   completedDate?: string;
   difficulty?: "easy" | "medium" | "hard" | "extreme";
   tags?: string[];
@@ -27,6 +27,13 @@ export interface User {
   id: number;
   name: string;
   email: string;
-  completedBlocs: number[];
-  favoriteBlocs: number[];
+
+}
+
+export interface UserBlocData {
+  id: number;
+  name: string;
+  level: string;
+  area: string;
+  img_url: string;
 }

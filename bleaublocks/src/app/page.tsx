@@ -78,20 +78,6 @@ export default function Home() {
               Prêt à explorer les blocs de Fontainebleau ?
             </p>
             
-            <div className="grid grid-cols-2 gap-3">
-              <div className="text-center p-3 bg-[var(--thirdcolor)] bg-opacity-20 rounded-lg">
-                <div className="text-lg font-bold text-[var(--thirdcolor)]">
-                  {user.completedBlocs?.length || 0}
-                </div>
-                <div className="text-xs opacity-70">Blocs réalisés</div>
-              </div>
-              <div className="text-center p-3 bg-[var(--fourthcolor)] bg-opacity-20 rounded-lg">
-                <div className="text-lg font-bold text-[var(--fourthcolor)]">
-                  {user.favoriteBlocs?.length || 0}
-                </div>
-                <div className="text-xs opacity-70">Projets</div>
-              </div>
-            </div>
           </div>
         )}
 
