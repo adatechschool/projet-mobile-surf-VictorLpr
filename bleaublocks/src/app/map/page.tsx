@@ -4,6 +4,8 @@ import { useState } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import BlocDetailModal from "@/components/BlocDetailModal";
 import PageHeader from "@/components/PageHeader";
+import LoadingState from "@/components/LoadingState";
+import ErrorState from "@/components/ErrorState";
 import { Bloc } from "@/types";
 import { useBlocs } from "@/hooks/useBlocs";
 import { useMapbox } from "@/hooks/useMapbox";
@@ -51,44 +53,20 @@ export default function MapPage() {
 
       <div className="flex-1 relative overflow-hidden">
         {isLoading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-[var(--background)] z-10">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--thirdcolor)] mx-auto mb-4"></div>
-              <p className="text-[var(--foreground)]">
-                {isBlocsLoading ? "Chargement des blocs..." : "Chargement de la carte..."}
-              </p>
-            </div>
+          <div className="absolute inset-0 bg-[var(--background)] z-10">
+            <LoadingState 
+              message={isBlocsLoading ? "Chargement des blocs..." : "Chargement de la carte..."}
+            />
           </div>
         )}
 
         {error && (
-          <div className="absolute inset-0 flex items-center justify-center bg-[var(--background)] z-10">
-            <div className="text-center p-6">
-              <div className="w-16 h-16 mx-auto mb-4 text-red-500">
-                <svg fill="currentColor" viewBox="0 0 20 20">
-                  <path
-                    fillRule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-lg font-semibold text-[var(--foreground)] mb-2">
-                Erreur de chargement
-              </h3>
-              <p className="text-[var(--foreground)] opacity-70">{error}</p>
-              {blocsError && (
-                <p className="text-[var(--foreground)] opacity-50 text-sm mt-2">
-                  Vérifiez que le serveur backend est démarré sur le port 8000
-                </p>
-              )}
-              <button
-                onClick={() => window.location.reload()}
-                className="mt-4 px-4 py-2 bg-[var(--thirdcolor)] text-[var(--background)] rounded-lg hover:opacity-80 transition-opacity"
-              >
-                Réessayer
-              </button>
-            </div>
+          <div className="absolute inset-0 bg-[var(--background)] z-10">
+            <ErrorState
+              message={error}
+              details={blocsError ? "Vérifiez que le serveur backend est démarré sur le port 8000" : undefined}
+              onRetry={() => window.location.reload()}
+            />
           </div>
         )}
 
