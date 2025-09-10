@@ -22,7 +22,7 @@ export default function BlocCard({
     >
       <div className="h-48 overflow-hidden">
         <img
-          src={bloc.image}
+          src={bloc.img_url}
           alt={bloc.name}
           className="w-full h-full object-cover"
         />
@@ -40,31 +40,13 @@ export default function BlocCard({
             >
               {bloc.level}
             </span>
-            {bloc.completed && (
-              <span className="text-green-500">
-                <svg
-                  className="w-5 h-5"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </span>
-            )}
+            
           </div>
         </div>
         <p className="text-[var(--foreground)] text-sm mb-2">
-          {bloc.location.area}
+          {bloc.area_name}
         </p>
-        {showCompletionDate && bloc.completed && bloc.completedDate && (
-          <p className="text-green-600 text-xs">
-            Complété le {bloc.completedDate}
-          </p>
-        )}
+        
       </div>
     </div>
   );
