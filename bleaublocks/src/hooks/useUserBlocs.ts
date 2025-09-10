@@ -1,14 +1,9 @@
 import { useState, useEffect } from 'react';
 import { ApiService } from '@/services/api';
 import { useAuth } from '@/contexts/AuthContext';
+import { UserBlocData } from '@/types';
 
-interface UserBlocData {
-  id: number;
-  name: string;
-  level: string;
-  area: string;
-  img_url: string;
-}
+
 
 interface UserWithBlocs {
   id: number;
