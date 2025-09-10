@@ -7,13 +7,11 @@ import { UserBlocData } from "@/types";
 interface UserBlocCardProps {
   bloc: UserBlocData;
   onClick?: (bloc: UserBlocData) => void;
-  showCompletionDate?: boolean;
 }
 
 export default function UserBlocCard({ 
   bloc, 
   onClick, 
-  showCompletionDate = false 
 }: UserBlocCardProps) {
   const handleClick = () => {
     if (onClick) {
@@ -27,7 +25,6 @@ export default function UserBlocCard({
       className="p-4 rounded-lg border border-[var(--thirdcolor)] bg-[var(--fifthcolor)] hover:bg-opacity-80 transition-all cursor-pointer group"
     >
       <div className="flex items-start space-x-3">
-        {/* Image du bloc */}
         <div className="w-16 h-16 rounded-lg overflow-hidden bg-gray-200 flex-shrink-0">
           {bloc.img_url ? (
             <img
@@ -42,7 +39,6 @@ export default function UserBlocCard({
           )}
         </div>
 
-        {/* Informations du bloc */}
         <div className="flex-1 min-w-0">
           <h3 className="font-semibold text-[var(--background)] group-hover:text-[var(--fourthcolor)] transition-colors truncate">
             {bloc.name}
@@ -57,14 +53,6 @@ export default function UserBlocCard({
           </div>
         </div>
       </div>
-
-      {showCompletionDate && (
-        <div className="mt-3 pt-3 border-t border-[var(--thirdcolor)] border-opacity-30">
-          <p className="text-xs text-[var(--background)] opacity-60">
-            ✅ Bloc réalisé
-          </p>
-        </div>
-      )}
     </div>
   );
 }
