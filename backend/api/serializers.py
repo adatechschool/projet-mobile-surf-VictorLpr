@@ -107,6 +107,7 @@ class UserWithBlocsSerializer(serializers.ModelSerializer):
         ).select_related('bloc', 'bloc__area')
         
         return [{
+            'id': completion.bloc.id,
             'name': completion.bloc.name,
             'level': completion.bloc.level,
             'area': completion.bloc.area.name,
@@ -120,6 +121,7 @@ class UserWithBlocsSerializer(serializers.ModelSerializer):
         ).select_related('bloc', 'bloc__area')
         
         return [{
+            'id': completion.bloc.id,
             'name': completion.bloc.name,
             'level': completion.bloc.level,
             'area': completion.bloc.area.name,
