@@ -2,17 +2,23 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import SignupModal from "../components/SignupModal";
+import AuthModal from "../components/AuthModal";
 import Navbar from "../components/Navbar";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Home() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
+  const { user } = useAuth();
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Login attempt:", { email, password });
+  const handleOpenLogin = () => {
+    setAuthMode('login');
+    setIsAuthModalOpen(true);
+  };
+
+  const handleOpenRegister = () => {
+    setAuthMode('register');
+    setIsAuthModalOpen(true);
   };
 
   return (
@@ -35,50 +41,59 @@ export default function Home() {
       </header>
 
       <main className="flex-1 p-6  bg-[var(--background)] text-[var(--foreground)]">
-        <div className="max-w-md mx-auto rounded-lg shadow-md p-6 mb-6 bg-[var(--foreground)] text-[var(--background)]">
-          <h2 className="text-xl font-semibold mb-4 text-center">
-            Connexion (optionnelle)
-          </h2>
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-3 border border-[var(--thirdcolor)] rounded-lg focus:outline-none focus:ring-2 bg-white text-[var(--background)]"
-              />
+        {!user ? (
+          <div className="max-w-md mx-auto rounded-lg shadow-md p-6 mb-6 bg-[var(--foreground)] text-[var(--background)]">
+            <h2 className="text-xl font-semibold mb-4 text-center">
+              Rejoignez BleauBlocks
+            </h2>
+            <p className="text-sm opacity-80 text-center mb-6">
+              Connectez-vous pour suivre vos blocs, commenter et contribuer à la communauté
+            </p>
+            
+            <div className="flex space-x-3 mb-4">
+              <button
+                onClick={handleOpenLogin}
+                className="flex-1 p-3 rounded-lg hover:opacity-90 transition-opacity font-semibold bg-[var(--fourthcolor)] text-[var(--foreground)]"
+              >
+                Se connecter
+              </button>
+              <button
+                onClick={handleOpenRegister}
+                className="flex-1 p-3 rounded-lg border border-[var(--thirdcolor)] hover:bg-[var(--thirdcolor)] hover:text-[var(--background)] transition-colors font-semibold"
+              >
+                S'inscrire
+              </button>
             </div>
-            <div>
-              <input
-                type="password"
-                placeholder="Mot de passe"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full p-3 border border-[var(--thirdcolor)] rounded-lg focus:outline-none focus:ring-2 bg-white text-[var(--background)]"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full p-3 rounded-lg hover:opacity-90 transition-opacity font-semibold bg-[var(--fourthcolor)] text-[var(--foreground)]"
-            >
-              Se connecter
-            </button>
-          </form>
 
-          <div className="flex space-x-3 mt-4">
-            <button
-              onClick={() => setIsSignupModalOpen(true)}
-              className="flex-1 p-3 rounded-lg border border-[var(--thirdcolor)] hover:opacity-80 transition-opacity font-semibold"
-            >
-              S'inscrire
-            </button>
+            <p className="text-sm opacity-70 text-center">
+              Ou continuez sans vous connecter pour explorer les blocs !
+            </p>
           </div>
-
-          <p className="text-sm opacity-70 text-center mt-4">
-            Pas de compte ? Continuez sans vous connecter !
-          </p>
-        </div>
+        ) : (
+          <div className="max-w-md mx-auto rounded-lg shadow-md p-6 mb-6 bg-[var(--foreground)] text-[var(--background)]">
+            <h2 className="text-xl font-semibold mb-4 text-center">
+              Bienvenue, {user.name} ! 👋
+            </h2>
+            <p className="text-sm opacity-80 text-center mb-6">
+              Prêt à explorer les blocs de Fontainebleau ?
+            </p>
+            
+            <div className="grid grid-cols-2 gap-3">
+              <div className="text-center p-3 bg-[var(--thirdcolor)] bg-opacity-20 rounded-lg">
+                <div className="text-lg font-bold text-[var(--thirdcolor)]">
+                  {user.completedBlocs?.length || 0}
+                </div>
+                <div className="text-xs opacity-70">Blocs réalisés</div>
+              </div>
+              <div className="text-center p-3 bg-[var(--fourthcolor)] bg-opacity-20 rounded-lg">
+                <div className="text-lg font-bold text-[var(--fourthcolor)]">
+                  {user.favoriteBlocs?.length || 0}
+                </div>
+                <div className="text-xs opacity-70">Projets</div>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="text-center">
           <h3 className="text-lg font-medium mb-4">Explorez Fontainebleau</h3>
@@ -86,14 +101,17 @@ export default function Home() {
             Découvrez des milliers de blocs d'escalade dans la forêt de
             Fontainebleau
           </p>
+          
+          
         </div>
       </main>
 
       <Navbar />
 
-      <SignupModal
-        isOpen={isSignupModalOpen}
-        onClose={() => setIsSignupModalOpen(false)}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        initialMode={authMode}
       />
     </div>
   );
