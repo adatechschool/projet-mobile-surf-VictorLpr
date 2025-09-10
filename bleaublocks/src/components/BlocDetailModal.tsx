@@ -3,10 +3,12 @@
 import { useState, useEffect } from "react";
 import { Comment } from "../types";
 import { useBlocDetail } from "@/hooks/useBlocDetail";
+import { useAuth } from "@/contexts/AuthContext";
 import { ModalLoading, ModalError, ModalHeader } from "./ModalStates";
 import BlocInfo from "./BlocInfo";
 import CommentsList from "./CommentsList";
 import CommentForm from "./CommentForm";
+import BlocStatusManager from "./BlocStatusManager";
 
 interface BlocDetailModalProps {
   blocId: number | null;
@@ -21,17 +23,23 @@ export default function BlocDetailModal({
 }: BlocDetailModalProps) {
   const [comments, setComments] = useState<Comment[]>([]);
   
-  const { blocDetail, isLoading, error } = useBlocDetail(isOpen ? blocId : null);
+  const { blocDetail, isLoading, error, refetch } = useBlocDetail(isOpen ? blocId : null);
+  const { user } = useAuth();
 
   useEffect(() => {
     if (blocDetail) {
       setComments(blocDetail.comments || []);
-      console.log("BlocDetailModal rendu avec blocId:", blocDetail);
+      console.log("BlocDetailModal rendu avec bloc:", blocDetail);
     }
   }, [blocDetail]);
 
   const handleAddComment = (newComment: Comment) => {
     setComments([...comments, newComment]);
+  };
+
+  const handleStatusChange = () => {
+    // Refetch les données pour avoir le statut à jour
+    refetch();
   };
 
   if (!isOpen || !blocId) return null;
@@ -57,13 +65,23 @@ export default function BlocDetailModal({
         <div className="p-4 max-w-2xl mx-auto pb-6">
           <BlocInfo bloc={blocDetail} />
 
+          {user && (
+            <BlocStatusManager 
+              bloc={blocDetail} 
+              onStatusChange={handleStatusChange}
+            />
+          )}
+
           <div className="mb-6">
             <h3 className="font-semibold text-[var(--fourthcolor)] mb-4">
               Commentaires ({comments.length})
             </h3>
 
             <CommentsList comments={comments} />
-            <CommentForm onAddComment={handleAddComment} />
+            <CommentForm 
+              blocId={blocDetail.id} 
+              onAddComment={handleAddComment} 
+            />
           </div>
         </div>
       </div>
