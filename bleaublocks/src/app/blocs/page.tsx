@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Navbar from "@/components/Navbar";
 import BlocDetailModal from "@/components/BlocDetailModal";
 import PageHeader from "@/components/PageHeader";
 import StatCard from "@/components/StatCard";
@@ -45,7 +44,6 @@ export default function BlocsPage() {
               <p className="text-[var(--foreground)]">Chargement des blocs...</p>
             </div>
           </div>
-          <Navbar />
         </div>
       </ProtectedRoute>
     );
@@ -82,7 +80,6 @@ export default function BlocsPage() {
               </button>
             </div>
           </div>
-          <Navbar />
         </div>
       </ProtectedRoute>
     );
@@ -111,7 +108,6 @@ export default function BlocsPage() {
                       key={`completed-${index}`}
                       bloc={bloc}
                       onClick={handleBlocClick}
-                      showCompletionDate={true}
                     />
                   ))}
                 </div>
@@ -138,7 +134,6 @@ export default function BlocsPage() {
                       key={`progress-${index}`}
                       bloc={bloc}
                       onClick={handleBlocClick}
-                      showCompletionDate={false}
                     />
                   ))}
                 </div>
@@ -156,7 +151,6 @@ export default function BlocsPage() {
           </div>
         </main>
 
-        <Navbar />
 
         <BlocDetailModal
           blocId={selectedBlocId}

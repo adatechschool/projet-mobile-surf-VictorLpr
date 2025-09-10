@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
-import Navbar from "@/components/Navbar";
 import BlocDetailModal from "@/components/BlocDetailModal";
 import PageHeader from "@/components/PageHeader";
 import { Bloc } from "@/types";
@@ -96,7 +95,6 @@ export default function MapPage() {
         <div ref={mapContainer} className="w-full h-full" />
       </div>
 
-      <Navbar />
 
       <BlocDetailModal
         blocId={selectedBlocId}

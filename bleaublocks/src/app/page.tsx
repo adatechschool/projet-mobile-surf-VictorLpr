@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { useState } from "react";
 import AuthModal from "../components/AuthModal";
-import Navbar from "../components/Navbar";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function Home() {
@@ -92,7 +91,6 @@ export default function Home() {
         </div>
       </main>
 
-      <Navbar />
 
       <AuthModal
         isOpen={isAuthModalOpen}
