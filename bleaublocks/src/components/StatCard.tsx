@@ -22,7 +22,7 @@ export default function StatCard({ value, label, isActive = false, onClick }: St
       <div className="text-2xl font-bold text-[var(--fourthcolor)]">
         {value}
       </div>
-      <div className="text-sm">{label}</div>
+      <div className="text-lm">{label}</div>
     </div>
   );
 }

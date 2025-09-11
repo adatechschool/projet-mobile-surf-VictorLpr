@@ -40,7 +40,7 @@ export default function BlocStatusManager({ bloc, onStatusChange }: BlocStatusMa
 
   return (
     <div className="mb-6">
-      <h3 className="font-semibold text-[var(--fourthcolor)] mb-3">
+      <h3 className="font-semibold text-[var(--fifthcolor)] mb-3">
         Mon statut pour ce bloc
       </h3>
       
@@ -60,7 +60,7 @@ export default function BlocStatusManager({ bloc, onStatusChange }: BlocStatusMa
               {isProjectActive ? 'Retrait...' : 'Ajout...'}
             </div>
           ) : (
-            <>📌 En projet</>
+            <> En projet</>
           )}
         </button>
 
@@ -79,7 +79,7 @@ export default function BlocStatusManager({ bloc, onStatusChange }: BlocStatusMa
               {isCompletedActive ? 'Retrait...' : 'Marquage...'}
             </div>
           ) : (
-            <>✅ Réalisé</>
+            <> Réalisé</>
           )}
         </button>
 

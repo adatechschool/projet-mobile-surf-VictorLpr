@@ -37,7 +37,7 @@ export default function UserBlocCard({
           <h3 className="font-semibold text-[var(--background)] group-hover:text-[var(--fourthcolor)] transition-colors truncate">
             {bloc.name}
           </h3>
-          <p className="text-sm text-[var(--background)] opacity-70 mb-1">
+          <p className="text-sm text-[var(--background)] mb-1">
             {bloc.area}
           </p>
           <div className="flex items-center space-x-2">

@@ -32,10 +32,10 @@ export default function TabContent({
         </div>
       ) : (
         <div className="text-center p-6 bg-[var(--fifthcolor)] rounded-lg">
-          <p className="text-[var(--background)] opacity-70">
+          <p className="text-[var(--background)]">
             {emptyMessage}
           </p>
-          <p className="text-sm text-[var(--background)] opacity-50 mt-1">
+          <p className="text-sm text-[var(--background)] mt-1">
             {emptySubMessage}
           </p>
         </div>

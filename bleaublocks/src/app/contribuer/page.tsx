@@ -1,13 +1,10 @@
 "use client";
 
 import ProtectedRoute from '@/components/ProtectedRoute';
-import LoadingState from '@/components/LoadingState';
-import ErrorState from '@/components/ErrorState';
 import PageHeader from '@/components/PageHeader';
 import PageIntro from '@/components/PageIntro';
 import TipsSection from '@/components/TipsSection';
 import BlocForm from '@/components/BlocForm';
-import { useAreas } from '@/hooks/useAreas';
 
 const CONTRIBUTION_TIPS = [
   'Vérifiez que le bloc n\'existe pas déjà',
