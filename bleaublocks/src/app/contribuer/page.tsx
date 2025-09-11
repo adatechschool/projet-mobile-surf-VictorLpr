@@ -27,7 +27,6 @@ export default function ContribuerPage() {
             <PageIntro 
               title="Ajouter un nouveau bloc"
               subtitle="Partagez vos découvertes avec la communauté"
-              icon="plus"
             />
 
             <div className="bg-[var(--foreground)] text-[var(--background)] rounded-lg p-4">

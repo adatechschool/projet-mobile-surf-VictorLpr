@@ -27,7 +27,7 @@ export default function PageIntro({ title, subtitle, icon }: PageIntroProps) {
         {icon || defaultIcon}
       </div>
       <h2 className="text-2xl font-bold mb-2">{title}</h2>
-      <p className="text-sm opacity-80">{subtitle}</p>
+      <p className="text-lm ">{subtitle}</p>
     </div>
   );
 }

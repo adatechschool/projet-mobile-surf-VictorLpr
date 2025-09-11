@@ -23,7 +23,7 @@ export default function FormInput({
 }: FormInputProps) {
   return (
     <div>
-      <label className="block text-sm font-medium mb-1">
+      <label className="block text-lm font-medium mb-1">
         {label} {required && '*'}
       </label>
       <input
@@ -37,7 +37,7 @@ export default function FormInput({
         className="w-full p-3 border border-[var(--thirdcolor)] rounded-lg focus:outline-none focus:ring-2 bg-white text-[var(--background)]"
       />
       {helpText && (
-        <p className="text-xs opacity-70 mt-1">{helpText}</p>
+        <p className="text-sm opacity-90 mt-1">{helpText}</p>
       )}
     </div>
   );

@@ -185,7 +185,7 @@ export default function BlocForm({ onSubmitSuccess }: BlocFormProps) {
       <button
         type="submit"
         disabled={!isFormValid() || isSubmitting}
-        className="w-full bg-[var(--thirdcolor)] text-white py-3 px-4 rounded-lg hover:bg-[var(--thirdcolor)]/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        className="w-full bg-[var(--thirdcolor)] text-[var(--background)] py-3 px-4 rounded-lg hover:bg-[var(--thirdcolor)]/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
       >
         {isSubmitting ? "Création en cours..." : "Créer le bloc"}
       </button>

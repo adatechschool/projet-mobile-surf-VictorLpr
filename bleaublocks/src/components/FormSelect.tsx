@@ -19,7 +19,7 @@ export default function FormSelect({
 }: FormSelectProps) {
   return (
     <div>
-      <label className="block text-sm font-medium mb-1">
+      <label className="block text-lm font-medium mb-1">
         {label} {required && '*'}
       </label>
       <select
