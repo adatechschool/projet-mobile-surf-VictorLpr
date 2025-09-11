@@ -29,7 +29,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-  // Vérifier l'authentification au chargement
   useEffect(() => {
     checkAuth();
   }, []);
@@ -41,12 +40,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include', // Inclure les cookies HTTP-only
+        credentials: 'include', 
       });
 
       if (response.ok) {
         const userData = await response.json();
-        console.log("Utilisateur authentifié:", userData);
         
         setUser({
           id: userData.id,
@@ -72,13 +70,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ username, password }),
-        credentials: 'include', // Important pour recevoir les cookies
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        // Le token est maintenant dans un cookie HTTP-only, pas besoin de localStorage
         setUser({
           id: data.user.id,
           name: data.user.username,
@@ -103,13 +99,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(userData),
-        credentials: 'include', // Pour recevoir le cookie après inscription
+        credentials: 'include', 
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        // Le token est maintenant dans un cookie HTTP-only
         setUser({
           id: data.user.id,
           name: data.user.username,
@@ -136,12 +131,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include', // Pour envoyer le cookie et le supprimer côté serveur
+        credentials: 'include',
       });
     } catch (error) {
       console.error('Erreur lors de la déconnexion:', error);
     } finally {
-      // Le cookie sera supprimé côté serveur, on met juste à jour l'état local
       setUser(null);
     }
   };

@@ -18,29 +18,7 @@ const CONTRIBUTION_TIPS = [
 ];
 
 export default function ContribuerPage() {
-  const { areas, isLoading: areasLoading, error: areasError } = useAreas();
-
-  if (areasLoading) {
-    return (
-      <ProtectedRoute>
-        <div className="min-h-screen flex flex-col bg-[var(--background)] text-[var(--foreground)] pb-20">
-          <PageHeader title="Contribuer" />
-          <LoadingState message="Chargement des zones..." />
-        </div>
-      </ProtectedRoute>
-    );
-  }
-
-  if (areasError) {
-    return (
-      <ProtectedRoute>
-        <div className="min-h-screen flex flex-col bg-[var(--background)] text-[var(--foreground)] pb-20">
-          <PageHeader title="Contribuer" />
-          <ErrorState message={areasError} onRetry={() => window.location.reload()} />
-        </div>
-      </ProtectedRoute>
-    );
-  }
+ 
 
   return (
     <ProtectedRoute>
