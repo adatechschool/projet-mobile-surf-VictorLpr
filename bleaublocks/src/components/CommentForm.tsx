@@ -10,7 +10,10 @@ interface CommentFormProps {
   onAddComment: (comment: Comment) => void;
 }
 
-export default function CommentForm({ blocId, onAddComment }: CommentFormProps) {
+export default function CommentForm({
+  blocId,
+  onAddComment,
+}: CommentFormProps) {
   const [newComment, setNewComment] = useState("");
   const [rating, setRating] = useState<number | undefined>(undefined);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -22,9 +25,12 @@ export default function CommentForm({ blocId, onAddComment }: CommentFormProps) 
 
     setIsSubmitting(true);
     try {
-      const response = await ApiService.addComment(blocId, newComment.trim(), rating);
-      
-      // Créer un objet Comment à partir de la réponse de l'API
+      const response = await ApiService.addComment(
+        blocId,
+        newComment.trim(),
+        rating
+      );
+
       const comment: Comment = {
         id: response.id,
         user_username: response.user_username,
@@ -32,13 +38,12 @@ export default function CommentForm({ blocId, onAddComment }: CommentFormProps) 
         date: new Date(response.created_at).toLocaleDateString("fr-FR"),
         rating: response.rating,
       };
-      
+
       onAddComment(comment);
       setNewComment("");
       setRating(undefined);
     } catch (error) {
       console.error("Erreur lors de l'ajout du commentaire:", error);
-      // TODO: Afficher une notification d'erreur
     } finally {
       setIsSubmitting(false);
     }
@@ -47,8 +52,12 @@ export default function CommentForm({ blocId, onAddComment }: CommentFormProps) 
   if (!user) {
     return (
       <div className="p-4 bg-gray-100 rounded-lg text-center">
-        <p className="text-gray-600 mb-2">Connectez-vous pour ajouter un commentaire</p>
-        <p className="text-sm text-gray-500">Seuls les utilisateurs connectés peuvent commenter</p>
+        <p className="text-gray-600 mb-2">
+          Connectez-vous pour ajouter un commentaire
+        </p>
+        <p className="text-sm text-gray-500">
+          Seuls les utilisateurs connectés peuvent commenter
+        </p>
       </div>
     );
   }
@@ -63,39 +72,7 @@ export default function CommentForm({ blocId, onAddComment }: CommentFormProps) 
         rows={3}
         disabled={isSubmitting}
       />
-      
-      {/* Sélecteur de note optionnel */}
-      <div className="flex items-center space-x-3">
-        <span className="text-sm text-[var(--fourthcolor)]">Note (optionnel):</span>
-        <div className="flex space-x-1">
-          {[1, 2, 3, 4, 5].map((star) => (
-            <button
-              key={star}
-              type="button"
-              onClick={() => setRating(rating === star ? undefined : star)}
-              className={`text-lg transition-colors ${
-                rating && star <= rating
-                  ? 'text-yellow-500'
-                  : 'text-gray-300 hover:text-yellow-400'
-              }`}
-              disabled={isSubmitting}
-            >
-              ⭐
-            </button>
-          ))}
-          {rating && (
-            <button
-              type="button"
-              onClick={() => setRating(undefined)}
-              className="text-sm text-gray-500 hover:text-gray-700 ml-2"
-              disabled={isSubmitting}
-            >
-              ❌
-            </button>
-          )}
-        </div>
-      </div>
-      
+
       <div className="flex space-x-3">
         <button
           type="submit"
@@ -108,7 +85,7 @@ export default function CommentForm({ blocId, onAddComment }: CommentFormProps) 
               Publication...
             </div>
           ) : (
-            'Publier le commentaire'
+            "Publier le commentaire"
           )}
         </button>
       </div>

@@ -38,7 +38,6 @@ export default function BlocDetailModal({
   };
 
   const handleStatusChange = () => {
-    // Refetch les données pour avoir le statut à jour
     refetch();
   };
 

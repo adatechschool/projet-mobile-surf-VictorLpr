@@ -14,7 +14,6 @@ export default function BlocStatusManager({ bloc, onStatusChange }: BlocStatusMa
   const [isUpdating, setIsUpdating] = useState(false);
   const { user } = useAuth();
 
-  // Utiliser directement les valeurs du backend
   const currentStatus = bloc.user_completion_status;
 
   const handleStatusChange = async (newStatus: 'en projet' | 'complété' | null) => {
@@ -24,7 +23,6 @@ export default function BlocStatusManager({ bloc, onStatusChange }: BlocStatusMa
     try {
       await ApiService.updateBlocStatus(bloc.id, newStatus);
       
-      // Appeler le callback pour refetch les données
       if (onStatusChange) {
         onStatusChange();
       }
@@ -32,7 +30,6 @@ export default function BlocStatusManager({ bloc, onStatusChange }: BlocStatusMa
       console.log(`Statut du bloc ${bloc.id} mis à jour:`, newStatus);
     } catch (error) {
       console.error('Erreur lors de la mise à jour du statut:', error);
-      // TODO: Afficher une notification d'erreur
     } finally {
       setIsUpdating(false);
     }
@@ -49,7 +46,6 @@ export default function BlocStatusManager({ bloc, onStatusChange }: BlocStatusMa
       </h3>
       
       <div className="flex space-x-3">
-        {/* Bouton En projet */}
         <button
           onClick={() => handleStatusChange(isProjectActive ? null : 'en projet')}
           disabled={isUpdating}
@@ -69,7 +65,6 @@ export default function BlocStatusManager({ bloc, onStatusChange }: BlocStatusMa
           )}
         </button>
 
-        {/* Bouton Réalisé */}
         <button
           onClick={() => handleStatusChange(isCompletedActive ? null : 'complété')}
           disabled={isUpdating}
@@ -89,7 +84,6 @@ export default function BlocStatusManager({ bloc, onStatusChange }: BlocStatusMa
           )}
         </button>
 
-        {/* Bouton de suppression (optionnel, puisqu'on peut cliquer sur le bouton actif pour retirer) */}
         {hasStatus && (
           <button
             onClick={() => handleStatusChange(null)}
@@ -102,7 +96,6 @@ export default function BlocStatusManager({ bloc, onStatusChange }: BlocStatusMa
         )}
       </div>
 
-      {/* Messages de statut */}
       {isCompletedActive && (
         <div className="mt-2 text-sm text-[var(--thirdcolor)] text-center">
           🎉 Félicitations ! Vous avez réalisé ce bloc
