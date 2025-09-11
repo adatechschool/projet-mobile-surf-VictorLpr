@@ -30,10 +30,33 @@ export interface User {
 
 }
 
+
+export interface Area {
+  id: number;
+  name: string;
+  description: string;
+  blocs_count: number;
+}
+
 export interface UserBlocData {
   id: number;
   name: string;
   level: string;
   area: string;
   img_url: string;
+}
+
+export interface UserWithBlocs {
+  id: number;
+  username: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  blocs_completed: UserBlocData[];
+  blocs_in_progress: UserBlocData[];
+  stats: {
+    blocs_completed_count: number;
+    blocs_in_progress_count: number;
+    blocs_created_count: number;
+  };
 }

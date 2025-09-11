@@ -4,7 +4,6 @@ import { useState } from "react";
 import BlocDetailModal from "@/components/BlocDetailModal";
 import PageHeader from "@/components/PageHeader";
 import StatCard from "@/components/StatCard";
-import UserBlocCard from "@/components/UserBlocCard";
 import TabContent from "@/components/TabContent";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import LoadingState from "@/components/LoadingState";

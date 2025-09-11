@@ -1,4 +1,4 @@
-import { Bloc } from "@/types";
+import { Area, Bloc, UserWithBlocs } from "@/types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -11,16 +11,14 @@ interface PaginatedResponse<T> {
 
 export class ApiService {
 
-  /**
-   * Options de base pour les requêtes avec authentification
-   */
+
   private static getRequestOptions(method: string = 'GET', body?: any): RequestInit {
     const options: RequestInit = {
       method,
       headers: {
       'Content-Type': 'application/json',
     },
-      credentials: 'include', // Toujours inclure les cookies pour l'authentification
+      credentials: 'include', 
     };
 
     if (body) {
@@ -30,9 +28,7 @@ export class ApiService {
     return options;
   }
 
-  /**
-   * Récupère tous les blocs depuis l'API
-   */
+
   static async getBlocs(): Promise<Bloc[]> {
     try {
       const response = await fetch(`${API_URL}/blocs/`, this.getRequestOptions());
@@ -43,7 +39,6 @@ export class ApiService {
 
       const data: PaginatedResponse<Bloc> = await response.json();
 
-      console.log("Données reçues de l'API:", data);
 
       return data.results;
     } catch (error) {
@@ -52,9 +47,7 @@ export class ApiService {
     }
   }
 
-  /**
-   * Récupère un bloc spécifique par son ID
-   */
+
   static async getBlocById(id: number): Promise<Bloc> {
     try {
       const response = await fetch(`${API_URL}/blocs/${id}/`, this.getRequestOptions());
@@ -71,10 +64,8 @@ export class ApiService {
     }
   }
 
-  /**
-   * Récupère les zones d'escalade
-   */
-  static async getAreas() {
+
+  static async getAreas(): Promise<Area[]> {
     try {
       const response = await fetch(`${API_URL}/areas/`, this.getRequestOptions());
 
@@ -84,16 +75,14 @@ export class ApiService {
 
       const data = await response.json();
 
-      return data.results || data;
+      return data.results;
     } catch (error) {
       console.error("Erreur lors de la récupération des zones:", error);
       throw new Error("Impossible de récupérer les zones depuis l'API");
     }
   }
 
-  /**
-   * Ajoute un commentaire à un bloc (nécessite une authentification)
-   */
+
   static async addComment(blocId: number, text: string, rating?: number, parentId?: number): Promise<any> {
     try {
       const body: any = { 
@@ -125,9 +114,6 @@ export class ApiService {
     }
   }
 
-  /**
-   * Récupère les commentaires d'un bloc spécifique
-   */
   static async getCommentsByBloc(blocId: number): Promise<any[]> {
     try {
       const response = await fetch(
@@ -147,10 +133,8 @@ export class ApiService {
     }
   }
 
-  /**
-   * Récupère un utilisateur avec ses blocs en projet et complétés
-   */
-  static async getUserWithBlocs(userId: number): Promise<any> {
+
+  static async getUserWithBlocs(userId: number): Promise<UserWithBlocs> {
     try {
       const response = await fetch(
         `${API_URL}/users/${userId}/with_blocs/`, 
@@ -168,16 +152,12 @@ export class ApiService {
     }
   }
 
-  /**
-   * Met à jour le statut d'un bloc (générique)
-   */
+ 
   static async updateBlocStatus(blocId: number, status: 'en projet' | 'complété' | null): Promise<any> {
     try {
       if (status === null) {
-        // Supprimer le statut
         return await this.removeBlocStatus(blocId);
       } else {
-        // Ajouter/mettre à jour le statut
         const response = await fetch(
           `${API_URL}/user-bloc-completions/set_status/`, 
           this.getRequestOptions('POST', { 
@@ -197,12 +177,9 @@ export class ApiService {
       throw new Error("Impossible de mettre à jour le statut du bloc");
     }
   }
-  /**
-   * Supprime le statut d'un bloc (retire de la liste projets/complétés)
-   */
-  static async removeBlocStatus(blocId: number): Promise<any> {
+
+  static async removeBlocStatus(blocId: number): Promise<{message: string}> {
     try {
-      // D'abord, récupérer l'ID de l'entrée UserBlocCompletion
       const response = await fetch(
         `${API_URL}/user-bloc-completions/?bloc_id=${blocId}`, 
         this.getRequestOptions()
@@ -214,7 +191,6 @@ export class ApiService {
 
       const data = await response.json();
       
-      // Si il y a une entrée, la supprimer
       if (data.results && data.results.length > 0) {
         const completionId = data.results[0].id;
         const deleteResponse = await fetch(
@@ -233,6 +209,36 @@ export class ApiService {
     } catch (error) {
       console.error("Erreur lors de la suppression du statut du bloc:", error);
       throw new Error("Impossible de supprimer le statut du bloc");
+    }
+  }
+
+
+  static async createBloc(blocData: {
+    name: string;
+    description: string;
+    starting_position: string;
+    style: string;
+    level: string;
+    area: number;
+    lat: number;
+    lng: number;
+    img_url?: string;
+  }): Promise<any> {
+    try {
+      const response = await fetch(
+        `${API_URL}/blocs/`, 
+        this.getRequestOptions('POST', blocData)
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Erreur HTTP: ${response.status} - ${JSON.stringify(errorData)}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Erreur lors de la création du bloc:", error);
+      throw new Error("Impossible de créer le bloc");
     }
   }
 }

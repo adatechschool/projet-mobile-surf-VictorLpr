@@ -1,24 +1,11 @@
 import { useState, useEffect } from 'react';
 import { ApiService } from '@/services/api';
 import { useAuth } from '@/contexts/AuthContext';
-import { UserBlocData } from '@/types';
+import {  UserWithBlocs } from '@/types';
 
 
 
-interface UserWithBlocs {
-  id: number;
-  username: string;
-  email: string;
-  first_name: string;
-  last_name: string;
-  blocs_completed: UserBlocData[];
-  blocs_in_progress: UserBlocData[];
-  stats: {
-    blocs_completed_count: number;
-    blocs_in_progress_count: number;
-    blocs_created_count: number;
-  };
-}
+
 
 interface UseUserBlocsReturn {
   userBlocs: UserWithBlocs | null;

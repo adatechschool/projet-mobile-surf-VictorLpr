@@ -26,17 +26,11 @@ export default function UserBlocCard({
     >
       <div className="flex items-start space-x-3">
         <div className="w-16 h-16 rounded-lg overflow-hidden bg-gray-200 flex-shrink-0">
-          {bloc.img_url ? (
             <img
               src={bloc.img_url}
               alt={bloc.name}
               className="w-full h-full object-cover"
             />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center text-gray-400">
-              🧗
-            </div>
-          )}
         </div>
 
         <div className="flex-1 min-w-0">
