@@ -28,15 +28,12 @@ urlpatterns = [
 # Response: {"message": "Déconnexion réussie"}
 #
 # GET /api/auth/profile/
-# Header: Authorization: Token <token>
 # Response: {"id": 1, "username": "...", "email": "...", ...}
 #
 # PUT/PATCH /api/auth/profile/update/
-# Header: Authorization: Token <token>
 # Body: {"email": "...", "first_name": "...", "last_name": "..."}
 # Response: {"user": {...}, "message": "..."}
 #
 # POST /api/auth/change-password/
-# Header: Authorization: Token <token>
 # Body: {"old_password": "...", "new_password": "...", "new_password_confirm": "..."}
 # Response: {"token": "...", "message": "..."}

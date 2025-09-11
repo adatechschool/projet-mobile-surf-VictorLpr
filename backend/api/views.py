@@ -16,8 +16,6 @@ from .serializers import (
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     """
     ViewSet pour les utilisateurs
-    - GET /users/ : Liste des utilisateurs (infos basiques)
-    - GET /users/{id}/ : Détails d'un utilisateur (infos basiques)
     - GET /users/{id}/with_blocs/ : Utilisateur avec ses blocs en projet/complétés
     """
     queryset = User.objects.all()
@@ -27,7 +25,6 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
         return serializers.ModelSerializer
     
     def get_serializer(self, *args, **kwargs):
-        # Serializer basique pour les infos de base de l'utilisateur
         class BasicUserSerializer(serializers.ModelSerializer):
             class Meta:
                 model = User
@@ -41,7 +38,6 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     def with_blocs(self, request, pk=None):
         """
         GET /users/{id}/with_blocs/
-        Retourne un utilisateur avec ses blocs en projet et complétés
         """
         user = self.get_object()
         serializer = UserWithBlocsSerializer(user, context={'request': request})
@@ -54,8 +50,6 @@ class BlocViewSet(viewsets.ModelViewSet):
     - GET /blocs/ : Liste des blocs
     - GET /blocs/{id}/ : Détails d'un bloc avec commentaires
     - POST /blocs/ : Créer un nouveau bloc
-    - PUT/PATCH /blocs/{id}/ : Modifier un bloc
-    - DELETE /blocs/{id}/ : Supprimer un bloc
     """
     queryset = Bloc.objects.select_related('area', 'created_by').prefetch_related('comments__user')
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -75,26 +69,16 @@ class BlocViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     """
     ViewSet pour les commentaires
-    - GET /comments/ : Liste des commentaires
-    - GET /comments/{id}/ : Détails d'un commentaire
     - POST /comments/ : Ajouter un nouveau commentaire
-    - PUT/PATCH /comments/{id}/ : Modifier un commentaire
-    - DELETE /comments/{id}/ : Supprimer un commentaire
     """
     queryset = Comment.objects.select_related('user', 'bloc', 'parent')
     serializer_class = CommentSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     
     def perform_create(self, serializer):
-        """
-        Ajouter l'utilisateur connecté comme auteur du commentaire
-        """
         serializer.save(user=self.request.user)
     
     def get_queryset(self):
-        """
-        Filtrer les commentaires par bloc si spécifié
-        """
         queryset = super().get_queryset()
         bloc_id = self.request.query_params.get('bloc_id', None)
         if bloc_id is not None:
@@ -103,24 +87,15 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 
 class UserBlocCompletionViewSet(viewsets.ModelViewSet):
-    """
-    ViewSet pour la gestion des statuts des blocs (en projet/complété)
-    - GET /user-bloc-completions/ : Liste des statuts
-    - POST /user-bloc-completions/ : Ajouter/Mettre à jour un statut
-    - PUT/PATCH /user-bloc-completions/{id}/ : Modifier un statut
-    - DELETE /user-bloc-completions/{id}/ : Supprimer un statut
-    """
+    
     queryset = UserBlocCompletion.objects.select_related('user', 'bloc', 'bloc__area')
     serializer_class = UserBlocCompletionSerializer
     permission_classes = [IsAuthenticated]
     
     def get_queryset(self):
-        """
-        Filtrer uniquement par l'utilisateur connecté et par paramètres optionnels
-        """
+
         queryset = super().get_queryset()
         
-        # Toujours filtrer par l'utilisateur connecté
         queryset = queryset.filter(user=self.request.user)
         
         bloc_id = self.request.query_params.get('bloc_id', None)
@@ -135,16 +110,12 @@ class UserBlocCompletionViewSet(viewsets.ModelViewSet):
         return queryset
     
     def perform_create(self, serializer):
-        """
-        Toujours utiliser l'utilisateur connecté
-        """
         serializer.save(user=self.request.user)
     
     @action(detail=False, methods=['post'])
     def set_status(self, request):
         """
         POST /user-bloc-completions/set_status/
-        Route spéciale pour définir/mettre à jour le statut d'un bloc
         Body: {"bloc_id": 1, "status": "complété"}
         """
         bloc_id = request.data.get('bloc_id')
@@ -156,13 +127,10 @@ class UserBlocCompletionViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
         
-        # Vérifier que le bloc existe
         bloc = get_object_or_404(Bloc, id=bloc_id)
         
-        # Toujours utiliser l'utilisateur connecté
         user = request.user
         
-        # Vérifier que le status est valide
         valid_statuses = [choice[0] for choice in UserBlocCompletion.STATUS_CHOICES]
         if status_value not in valid_statuses:
             return Response(
@@ -170,7 +138,6 @@ class UserBlocCompletionViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
         
-        # Créer ou mettre à jour
         completion, created = UserBlocCompletion.objects.update_or_create(
             user=user,
             bloc=bloc,
@@ -191,7 +158,6 @@ class AreaViewSet(viewsets.ModelViewSet):
     """
     ViewSet pour les zones (lecture seule)
     - GET /areas/ : Liste des zones
-    - GET /areas/{id}/ : Détails d'une zone
     """
     queryset = Area.objects.prefetch_related('blocs')
     serializer_class = AreaSerializer

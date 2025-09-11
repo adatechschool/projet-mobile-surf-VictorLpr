@@ -9,9 +9,7 @@ from rest_framework import serializers
 
 
 class LoginSerializer(serializers.Serializer):
-    """
-    Serializer pour la connexion
-    """
+    
     username = serializers.CharField()
     password = serializers.CharField(style={'input_type': 'password'})
 
@@ -49,7 +47,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
 def login_view(request):
     """
     POST /api/auth/login/
-    Connexion d'un utilisateur
     Body: {"username": "...", "password": "..."}
     """
     serializer = LoginSerializer(data=request.data)
@@ -95,7 +92,6 @@ def login_view(request):
 def register_view(request):
     """
     POST /api/auth/register/
-    Inscription d'un nouvel utilisateur
     Body: {"username": "...", "email": "...", "password": "...", "password_confirm": "..."}
     """
     serializer = RegisterSerializer(data=request.data)
@@ -122,7 +118,6 @@ def register_view(request):
 def logout_view(request):
     """
     POST /api/auth/logout/
-    Déconnexion d'un utilisateur (supprime le token et le cookie)
     """
     try:
         request.user.auth_token.delete()
@@ -148,8 +143,6 @@ def logout_view(request):
 def profile_view(request):
     """
     GET /api/auth/profile/
-    Récupérer le profil de l'utilisateur connecté
-    Header: Authorization: Token <token>
     """
     serializer = UserProfileSerializer(request.user)
     return Response(serializer.data)
@@ -159,8 +152,6 @@ def profile_view(request):
 def update_profile_view(request):
     """
     PUT/PATCH /api/auth/profile/update/
-    Mettre à jour le profil de l'utilisateur connecté
-    Header: Authorization: Token <token>
     """
     serializer = UserProfileSerializer(request.user, data=request.data, partial=True)
     if serializer.is_valid():
@@ -176,7 +167,6 @@ def update_profile_view(request):
 def change_password_view(request):
     """
     POST /api/auth/change-password/
-    Changer le mot de passe de l'utilisateur connecté
     Body: {"old_password": "...", "new_password": "...", "new_password_confirm": "..."}
     """
     old_password = request.data.get('old_password')
