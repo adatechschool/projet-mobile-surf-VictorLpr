@@ -57,11 +57,11 @@ export default function BlocDetailModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-[var(--background)] text-[var(--foreground)] flex flex-col">
+    <div className="fixed inset-0 z-[50] bg-[var(--background)] text-[var(--foreground)] flex flex-col">
       <ModalHeader title={blocDetail.name} onClose={onClose} />
 
       <div className="flex-1 overflow-y-auto scrollbar-hide">
-        <div className="p-4 max-w-2xl mx-auto pb-6">
+        <div className="p-4 max-w-2xl mx-auto pb-24">
           <BlocInfo bloc={blocDetail} />
 
           {user && (
