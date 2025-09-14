@@ -21,7 +21,7 @@ export default function BlocInfo({ bloc }: BlocInfoProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         <div className="space-y-3">
           <div>
-            <h3 className="font-semibold text-[var(--fifthcolor)]">Niveau</h3>
+            <h3 className="font-semibold ">Niveau</h3>
             <div className="flex items-center space-x-2">
               <span
                 className={`px-3 py-1 rounded-full text-white text-sm font-bold ${getLevelColor(
@@ -34,7 +34,7 @@ export default function BlocInfo({ bloc }: BlocInfoProps) {
           </div>
 
           <div>
-            <h3 className="font-semibold text-[var(--fifthcolor)]">
+            <h3 className="font-semibold ">
               Position de départ
             </h3>
             <p className="text-sm">{bloc.starting_position}</p>
@@ -43,7 +43,7 @@ export default function BlocInfo({ bloc }: BlocInfoProps) {
 
         <div className="space-y-3">
           <div>
-            <h3 className="font-semibold text-[var(--fifthcolor)]">
+            <h3 className="font-semibold ">
               Localisation
             </h3>
             <p className="text-sm">{bloc.area_name}</p>
@@ -55,7 +55,7 @@ export default function BlocInfo({ bloc }: BlocInfoProps) {
       </div>
 
       <div className="mb-6">
-        <h3 className="font-semibold text-[var(--fifthcolor)] mb-2">
+        <h3 className="font-semibold  mb-2">
           Description
         </h3>
         <p className="text-sm leading-relaxed">{bloc.description}</p>

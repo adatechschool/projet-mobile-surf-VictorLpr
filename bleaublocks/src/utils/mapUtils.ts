@@ -15,7 +15,7 @@ export const createPopupHTML = (bloc: Bloc): string => {
       }</p>
       <span style="background: ${getLevelColorHex(
         bloc.level
-      )}; color: white; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold;">${
+      )}; color: black; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold;">${
     bloc.level
   }</span>
       <p style="color: #444; margin: 4px 0 0 0; font-size: 11px;">Cliquez pour voir les détails</p>

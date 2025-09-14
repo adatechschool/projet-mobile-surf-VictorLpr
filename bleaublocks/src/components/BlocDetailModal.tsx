@@ -62,16 +62,18 @@ export default function BlocDetailModal({
 
       <div className="flex-1 overflow-y-auto scrollbar-hide">
         <div className="p-4 max-w-2xl mx-auto pb-24">
-          <BlocInfo bloc={blocDetail} />
+          <div className="bg-[var(--foreground)] text-[var(--background)] rounded-lg p-4 mb-6">
+            <BlocInfo bloc={blocDetail} />
 
-          {user && (
-            <BlocStatusManager 
-              bloc={blocDetail} 
-              onStatusChange={handleStatusChange}
-            />
-          )}
+            {user && (
+              <BlocStatusManager 
+                bloc={blocDetail} 
+                onStatusChange={handleStatusChange}
+              />
+            )}
+          </div>
 
-          <div className="mb-6">
+          <div className="bg-[var(--foreground)] text-[var(--background)] rounded-lg p-4">
             <h3 className="font-semibold text-[var(--fourthcolor)] mb-4">
               Commentaires ({comments.length})
             </h3>

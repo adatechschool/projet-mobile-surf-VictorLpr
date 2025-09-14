@@ -27,7 +27,7 @@ export default function FormSelect({
         value={value}
         onChange={onChange}
         required={required}
-        className="w-full p-3 border border-[var(--thirdcolor)] rounded-lg focus:outline-none focus:ring-2 bg-white text-[var(--background)]"
+        className="w-full p-3  rounded-lg focus:outline-none focus:ring-2 bg-white text-[var(--background)]"
       >
         <option value="">{placeholder}</option>
         {options.map((option) => (

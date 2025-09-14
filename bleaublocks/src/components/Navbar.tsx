@@ -52,7 +52,7 @@ export default function Navbar() {
                 d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
               />
             </svg>
-            <span className="text-xs">Accueil</span>
+            <span className="text-sm">Accueil</span>
           </Link>
 
           <Link
@@ -76,61 +76,8 @@ export default function Navbar() {
                 d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m-6 3l6-3"
               />
             </svg>
-            <span className="text-xs">Carte</span>
+            <span className="text-sm">Carte</span>
           </Link>
-
-          <Link
-            href="/blocs"
-            onClick={(e) => handleProtectedRouteClick(e, '/blocs')}
-            className={`flex flex-col items-center space-y-1 hover:opacity-80 transition-opacity ${
-              pathname === "/blocs"
-                ? "text-[var(--fourthcolor)]"
-                : "text-[var(--background)]"
-            } ${shouldShowAuthPrompt('/blocs') ? 'opacity-50' : ''}`}
-          >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <span className="text-xs">Mes Blocs</span>
-          </Link>
-
-          <Link
-            href="/profil"
-            onClick={(e) => handleProtectedRouteClick(e, '/profil')}
-            className={`flex flex-col items-center space-y-1 hover:opacity-80 transition-opacity ${
-              pathname === "/profil"
-                ? "text-[var(--fourthcolor)]"
-                : "text-[var(--background)]"
-            } ${shouldShowAuthPrompt('/profil') ? 'opacity-50' : ''}`}
-          >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-              />
-            </svg>
-            <span className="text-xs">
-              {user ? user.name : 'Profil'}
-            </span>
-          </Link>
-
           <Link
             href="/contribuer"
             onClick={(e) => handleProtectedRouteClick(e, '/contribuer')}
@@ -155,6 +102,59 @@ export default function Navbar() {
             </svg>
             <span className="text-xs">Contribuer</span>
           </Link>
+
+          <Link
+            href="/blocs"
+            onClick={(e) => handleProtectedRouteClick(e, '/blocs')}
+            className={`flex flex-col items-center space-y-1 hover:opacity-80 transition-opacity ${
+              pathname === "/blocs"
+                ? "text-[var(--fourthcolor)]"
+                : "text-[var(--background)]"
+            } ${shouldShowAuthPrompt('/blocs') ? 'opacity-50' : ''}`}
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <span className="text-sm">Mes Blocs</span>
+          </Link>
+
+          <Link
+            href="/profil"
+            onClick={(e) => handleProtectedRouteClick(e, '/profil')}
+            className={`flex flex-col items-center space-y-1 hover:opacity-80 transition-opacity ${
+              pathname === "/profil"
+                ? "text-[var(--fourthcolor)]"
+                : "text-[var(--background)]"
+            } ${shouldShowAuthPrompt('/profil') ? 'opacity-50' : ''}`}
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+              />
+            </svg>
+            <span className="text-sm">
+              {user ? user.name : 'Profil'}
+            </span>
+          </Link>
+
         </div>
 
         

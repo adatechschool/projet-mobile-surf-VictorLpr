@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Comment } from "@/types";
 import { useAuth } from "@/contexts/AuthContext";
 import { ApiService } from "@/services/api";
+import FormTextarea from "./FormTextarea";
 
 interface CommentFormProps {
   blocId: number;
@@ -35,7 +36,7 @@ export default function CommentForm({
         id: response.id,
         user_username: response.user_username,
         text: response.text,
-        date: new Date(response.created_at).toLocaleDateString("fr-FR"),
+        created_at: new Date(response.created_at).toLocaleDateString("fr-FR"),
         rating: response.rating,
       };
 
@@ -51,11 +52,11 @@ export default function CommentForm({
 
   if (!user) {
     return (
-      <div className="p-4 bg-gray-100 rounded-lg text-center">
-        <p className="text-gray-600 mb-2">
+      <div className="p-4 bg-[var(--thirdcolor)]/20 rounded-lg text-center">
+        <p className="text-[var(--background)] mb-2">
           Connectez-vous pour ajouter un commentaire
         </p>
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-[var(--background)] opacity-70">
           Seuls les utilisateurs connectés peuvent commenter
         </p>
       </div>
@@ -68,7 +69,7 @@ export default function CommentForm({
         value={newComment}
         onChange={(e) => setNewComment(e.target.value)}
         placeholder="Ajoutez votre commentaire..."
-        className="w-full p-3 border border-[var(--thirdcolor)] rounded-lg focus:outline-none focus:ring-2 bg-[var(--fifthcolor)] text-[var(--background)] resize-none"
+        className="w-full p-3 border border-[var(--fourthcolor)] rounded-lg  bg-[var(--fifthcolor)] text-[var(--background)] resize-none"
         rows={3}
         disabled={isSubmitting}
       />

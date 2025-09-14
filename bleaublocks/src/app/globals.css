@@ -2,11 +2,12 @@
 @import "mapbox-gl/dist/mapbox-gl.css";
 
 :root {
-  --background:#326531 ;
-  --foreground: #D0CFEC;
+  --background:#003000 ;
+  --foreground: #ebebeb;
   --thirdcolor: #C5E6A6;
-  --fourthcolor: #B77332;
-  --fifthcolor: #EDC7CF;
+  --fourthcolor: #da6914;
+  --fifthcolor: #ebebeb;
+  --flo : #e3e9f1
 }
 
 @theme inline {

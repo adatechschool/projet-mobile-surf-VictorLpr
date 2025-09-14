@@ -2,7 +2,7 @@ export interface Comment {
   id: number;
   user_username: string;
   text: string;
-  date: string;
+  created_at: string;
   rating?: number;
 }
 

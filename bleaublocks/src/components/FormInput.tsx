@@ -34,7 +34,7 @@ export default function FormInput({
         placeholder={placeholder}
         step={step}
         required={required}
-        className="w-full p-3 border border-[var(--thirdcolor)] rounded-lg focus:outline-none focus:ring-2 bg-white text-[var(--background)]"
+        className="w-full p-3   rounded-lg focus:outline-none focus:ring-2 bg-white text-[var(--background)]"
       />
       {helpText && (
         <p className="text-sm opacity-90 mt-1">{helpText}</p>

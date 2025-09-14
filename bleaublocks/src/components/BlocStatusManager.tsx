@@ -40,7 +40,7 @@ export default function BlocStatusManager({ bloc, onStatusChange }: BlocStatusMa
 
   return (
     <div className="mb-6">
-      <h3 className="font-semibold text-[var(--fifthcolor)] mb-3">
+      <h3 className="font-semibold  mb-3">
         Mon statut pour ce bloc
       </h3>
       
@@ -69,8 +69,8 @@ export default function BlocStatusManager({ bloc, onStatusChange }: BlocStatusMa
           disabled={isUpdating}
           className={`flex-1 p-3 rounded-lg font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
             isCompletedActive
-              ? 'bg-[var(--thirdcolor)] text-[var(--background)]'
-              : 'border border-[var(--thirdcolor)] text-[var(--thirdcolor)] hover:bg-[var(--thirdcolor)] hover:text-[var(--background)]'
+              ? 'bg-[var(--fourthcolor)] text-[var(--foreground)]'
+              : 'border border-[var(--fourthcolor)] text-[var(--fourthcolor)] hover:bg-[var(--fourthcolor)] hover:text-[var(--foreground)]'
           }`}
         >
           {isUpdating ? (
@@ -82,29 +82,9 @@ export default function BlocStatusManager({ bloc, onStatusChange }: BlocStatusMa
             <> Réalisé</>
           )}
         </button>
-
-        {hasStatus && (
-          <button
-            onClick={() => handleStatusChange(null)}
-            disabled={isUpdating}
-            className="px-4 py-3 rounded-lg font-semibold transition-all border border-gray-400 text-gray-400 hover:bg-gray-400 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
-            title="Retirer de toutes les listes"
-          >
-            ❌
-          </button>
-        )}
       </div>
 
-      {isCompletedActive && (
-        <div className="mt-2 text-sm text-[var(--thirdcolor)] text-center">
-          🎉 Félicitations ! Vous avez réalisé ce bloc
-        </div>
-      )}
-      {isProjectActive && (
-        <div className="mt-2 text-sm text-[var(--fourthcolor)] text-center">
-          💪 Ce bloc est dans vos projets
-        </div>
-      )}
+      
     </div>
   );
 }
