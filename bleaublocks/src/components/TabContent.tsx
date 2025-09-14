@@ -17,9 +17,7 @@ export default function TabContent({
 }: TabContentProps) {
   return (
     <div className="mb-8">
-      <h2 className="text-lg font-semibold mb-4 text-[var(--thirdcolor)]">
-        {title} ({blocs.length})
-      </h2>
+      
       {blocs.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {blocs.map((bloc, index) => (
