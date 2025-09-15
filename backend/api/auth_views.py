@@ -42,6 +42,16 @@ class UserProfileSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'username', 'date_joined']
 
 
+
+def get_cookie_params():
+    from django.conf import settings
+    is_production = not settings.DEBUG
+    return {
+        'secure': True if is_production else False,
+        'samesite': 'None' if is_production else 'Lax',
+        'httponly': True
+    }
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def login_view(request):
@@ -70,17 +80,9 @@ def login_view(request):
             }, status=status.HTTP_200_OK)
             
             # Configuration des cookies pour la production
-            from django.conf import settings
-            is_production = not settings.DEBUG
             
-            response.set_cookie(
-                'auth_token',
-                token.key,
-                max_age=86400,  # 24 heures
-                httponly=True,
-                secure=is_production,  # True en production avec HTTPS
-                samesite='None' if is_production else 'Lax'
-            )
+            
+            response.set_cookie('auth_token', token.key, max_age=86400, **get_cookie_params())
             
             return response
         else:
@@ -123,6 +125,7 @@ def logout_view(request):
     """
     POST /api/auth/logout/
     """
+
     try:
         request.user.auth_token.delete()
         
@@ -130,7 +133,13 @@ def logout_view(request):
             'message': 'Déconnexion réussie'
         }, status=status.HTTP_200_OK)
         
-        response.delete_cookie('auth_token')
+        response.set_cookie(
+            'auth_token',
+            '', 
+            max_age=0, 
+            expires='Thu, 01 Jan 1970 00:00:00 GMT',  
+            **get_cookie_params()
+        )
         
         return response
     except:
@@ -138,7 +147,13 @@ def logout_view(request):
             'error': 'Erreur lors de la déconnexion'
         }, status=status.HTTP_400_BAD_REQUEST)
         
-        response.delete_cookie('auth_token')
+        response.set_cookie(
+            'auth_token',
+            '', 
+            max_age=0,  
+            expires='Thu, 01 Jan 1970 00:00:00 GMT',  
+            **get_cookie_params()
+        )
         
         return response
 
