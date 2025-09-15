@@ -4,8 +4,12 @@ from .views import (
     UserViewSet, BlocViewSet, CommentViewSet, 
     UserBlocCompletionViewSet, AreaViewSet
 )
+from django.http import JsonResponse
+   
+def root_view(request):
+    return JsonResponse({"message": "API Django BleauBlocs"})
 
-# Créer le router pour les ViewSets
+
 router = DefaultRouter()
 router.register(r'users', UserViewSet, basename='user')
 router.register(r'blocs', BlocViewSet, basename='bloc')
@@ -14,6 +18,7 @@ router.register(r'user-bloc-completions', UserBlocCompletionViewSet, basename='u
 router.register(r'areas', AreaViewSet, basename='area')
 
 urlpatterns = [
+    path('', root_view),
     path('api/', include(router.urls)),
     path('api/auth/', include('api.auth_urls')),
 ]
