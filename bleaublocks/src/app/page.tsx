@@ -7,16 +7,9 @@ import { useAuth } from "../contexts/AuthContext";
 
 export default function Home() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
   const { user } = useAuth();
 
   const handleOpenLogin = () => {
-    setAuthMode('login');
-    setIsAuthModalOpen(true);
-  };
-
-  const handleOpenRegister = () => {
-    setAuthMode('register');
     setIsAuthModalOpen(true);
   };
 
@@ -33,34 +26,27 @@ export default function Home() {
             ></Image>
           </div>
           <h1 className="text-3xl font-bold">BleauBlocks</h1>
-          <p className="text-lm">
-            Découvrez les blocs de Fontainebleau
-          </p>
+          <p className="text-lm">Découvrez les blocs de Fontainebleau</p>
         </div>
       </header>
 
       <main className="flex-1 p-6  bg-[var(--background)] text-[var(--foreground)]">
         {!user ? (
-          <div className="max-w-md mx-auto rounded-lg shadow-md p-6 mb-6 bg-[var(--foreground)] text-[var(--background)]">
+          <div className="flex flex-col items-center max-w-md mx-auto rounded-lg shadow-md p-6 mb-6 bg-[var(--foreground)] text-[var(--background)]">
             <h2 className="text-xl font-semibold mb-4 text-center">
               Rejoignez BleauBlocks
             </h2>
             <p className="text-lm text-center mb-6">
-              Connectez-vous pour suivre vos blocs, commenter et contribuer à la communauté
+              Connectez-vous pour suivre vos blocs, commenter et contribuer à la
+              communauté
             </p>
-            
-            <div className="flex space-x-3 mb-4">
+
+            <div className="flex space-x-3 mb-4 w-8/10">
               <button
                 onClick={handleOpenLogin}
-                className="flex-1 p-3 rounded-lg hover:opacity-90 transition-opacity font-semibold bg-[var(--fourthcolor)] text-[var(--foreground)]"
+                className="flex-1 p-3 rounded-lg  hover:opacity-90 transition-opacity font-semibold bg-[var(--fourthcolor)] text-[var(--foreground)]"
               >
                 Se connecter
-              </button>
-              <button
-                onClick={handleOpenRegister}
-                className="flex-1 p-3 rounded-lg border border-[var(--thirdcolor)] hover:bg-[var(--thirdcolor)] hover:text-[var(--background)] transition-colors font-semibold"
-              >
-                S'inscrire
               </button>
             </div>
 
@@ -76,7 +62,6 @@ export default function Home() {
             <p className="text-lm  text-center mb-6">
               Prêt à explorer les blocs de Fontainebleau ?
             </p>
-            
           </div>
         )}
 
@@ -86,16 +71,12 @@ export default function Home() {
             Découvrez des milliers de blocs d'escalade dans la forêt de
             Fontainebleau
           </p>
-          
-          
         </div>
       </main>
-
 
       <AuthModal
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
-        initialMode={authMode}
       />
     </div>
   );

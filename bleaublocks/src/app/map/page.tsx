@@ -19,12 +19,12 @@ const MAP_CONFIG = {
 export default function MapPage() {
   const [selectedBlocId, setSelectedBlocId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+
   const { blocs, isLoading: isBlocsLoading, error: blocsError } = useBlocs();
 
   const handleBlocClick = (bloc: Bloc) => {
     console.log("Bloc cliqué:", bloc);
-    
+
     setSelectedBlocId(bloc.id);
     setIsModalOpen(true);
   };
@@ -33,9 +33,12 @@ export default function MapPage() {
     setIsModalOpen(false);
     setSelectedBlocId(null);
   };
-  console.log("Blocs chargés:", blocs);
-  
-  const { mapContainer, isLoading: isMapLoading, error: mapError } = useMapbox({
+
+  const {
+    mapContainer,
+    isLoading: isMapLoading,
+    error: mapError,
+  } = useMapbox({
     initialLng: MAP_CONFIG.lng,
     initialLat: MAP_CONFIG.lat,
     initialZoom: MAP_CONFIG.zoom,
@@ -54,8 +57,12 @@ export default function MapPage() {
       <div className="flex-1 relative overflow-hidden">
         {isLoading && (
           <div className="absolute inset-0 bg-[var(--background)] z-10">
-            <LoadingState 
-              message={isBlocsLoading ? "Chargement des blocs..." : "Chargement de la carte..."}
+            <LoadingState
+              message={
+                isBlocsLoading
+                  ? "Chargement des blocs..."
+                  : "Chargement de la carte..."
+              }
             />
           </div>
         )}
@@ -64,7 +71,11 @@ export default function MapPage() {
           <div className="absolute inset-0 bg-[var(--background)] z-10">
             <ErrorState
               message={error}
-              details={blocsError ? "Vérifiez que le serveur backend est démarré sur le port 8000" : undefined}
+              details={
+                blocsError
+                  ? "Vérifiez que le serveur backend est démarré sur le port 8000"
+                  : undefined
+              }
               onRetry={() => window.location.reload()}
             />
           </div>
@@ -72,7 +83,6 @@ export default function MapPage() {
 
         <div ref={mapContainer} className="w-full h-full" />
       </div>
-
 
       <BlocDetailModal
         blocId={selectedBlocId}

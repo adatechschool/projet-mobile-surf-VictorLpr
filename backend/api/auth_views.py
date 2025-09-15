@@ -69,13 +69,17 @@ def login_view(request):
                 'message': 'Connexion réussie'
             }, status=status.HTTP_200_OK)
             
+            # Configuration des cookies pour la production
+            from django.conf import settings
+            is_production = not settings.DEBUG
+            
             response.set_cookie(
                 'auth_token',
                 token.key,
                 max_age=86400,  # 24 heures
                 httponly=True,
-                secure=False,  # True en production avec HTTPS
-                samesite='Lax'
+                secure=is_production,  # True en production avec HTTPS
+                samesite='None' if is_production else 'Lax'
             )
             
             return response
@@ -198,13 +202,17 @@ def change_password_view(request):
         'message': 'Mot de passe changé avec succès'
     })
     
+    # Configuration des cookies pour la production
+    from django.conf import settings
+    is_production = not settings.DEBUG
+    
     response.set_cookie(
         'auth_token',
         token.key,
         max_age=86400,  # 24 heures
         httponly=True,
-        secure=False,  # True en production avec HTTPS
-        samesite='Lax'
+        secure=is_production,  # True en production avec HTTPS
+        samesite='None' if is_production else 'Lax'
     )
     
     return response

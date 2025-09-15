@@ -15,7 +15,9 @@ export default function CommentsList({ comments }: CommentsListProps) {
             <p className="text-sm mb-2">{comment.text}</p>
             <div className="flex items-center justify-between ">
               <span className="text-xs">{comment.user_username}</span>
-              <span className="text-xs opacity-70">{new Date(comment.created_at).toLocaleDateString()}</span>
+              <span className="text-xs opacity-70">
+                {new Date(comment.created_at).toLocaleDateString()}
+              </span>
             </div>
           </div>
           {index < comments.length - 1 && (
@@ -25,7 +27,7 @@ export default function CommentsList({ comments }: CommentsListProps) {
       ))}
 
       {comments.length === 0 && (
-        <p className="text-sm opacity-70 text-center text-[var(--foreground)] py-4">
+        <p className="text-sm opacity-90 text-center text-[var(--background)]">
           Aucun commentaire pour le moment. Soyez le premier à commenter !
         </p>
       )}
