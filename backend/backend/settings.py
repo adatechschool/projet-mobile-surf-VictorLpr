@@ -156,7 +156,7 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Next.js frontend local
     "http://127.0.0.1:3000",
-    "https://bleau-blocks.vercel.app",  # Frontend en production
+    "https://bleau-blocks.vercel.app",  # Frontend en production - domaine exact
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -192,10 +192,6 @@ CSRF_COOKIE_SECURE = not DEBUG
 SESSION_COOKIE_SAMESITE = 'None' if not DEBUG else 'Lax'
 CSRF_COOKIE_SAMESITE = 'None' if not DEBUG else 'Lax'
 
-# Configuration spécifique pour les cookies en production
-if not DEBUG:
-    SESSION_COOKIE_DOMAIN = '.vercel.app'
-    CSRF_COOKIE_DOMAIN = '.vercel.app'
 
 # Configuration pour les tokens d'authentification
 AUTH_TOKEN_EXPIRY = None  # Les tokens n'expirent pas par défaut

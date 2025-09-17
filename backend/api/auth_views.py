@@ -47,14 +47,13 @@ def get_cookie_params():
     from django.conf import settings
     is_production = not settings.DEBUG
     
-    # Configuration pour la production avec Vercel
+    # Configuration pour la production
     if is_production:
         return {
-            'secure': True,  # Obligatoire pour SameSite=None
-            'samesite': 'None',  # Obligatoire pour cross-origin
+            'secure': True,  
+            'samesite': 'None', 
             'httponly': True,
-            'domain': '.vercel.app',  # Permet cookies sur tous les sous-domaines Vercel
-            'path': '/',  # Assure que le cookie est envoyé pour toutes les routes
+            'path': '/', 
         }
     else:
         # Configuration pour le développement local
@@ -230,7 +229,7 @@ def change_password_view(request):
         'message': 'Mot de passe changé avec succès'
     })
     
-    # Utiliser la fonction get_cookie_params() pour une configuration cohérente
+    
     response.set_cookie('auth_token', token.key, max_age=86400, **get_cookie_params())
     
     return response
