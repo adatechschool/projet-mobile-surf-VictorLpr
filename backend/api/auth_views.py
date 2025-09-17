@@ -46,11 +46,24 @@ class UserProfileSerializer(serializers.ModelSerializer):
 def get_cookie_params():
     from django.conf import settings
     is_production = not settings.DEBUG
-    return {
-        'secure': True if is_production else False,
-        'samesite': 'None' if is_production else 'Lax',
-        'httponly': True
-    }
+    
+    # Configuration pour la production avec Vercel
+    if is_production:
+        return {
+            'secure': True,  # Obligatoire pour SameSite=None
+            'samesite': 'None',  # Obligatoire pour cross-origin
+            'httponly': True,
+            'domain': '.vercel.app',  # Permet cookies sur tous les sous-domaines Vercel
+            'path': '/',  # Assure que le cookie est envoyé pour toutes les routes
+        }
+    else:
+        # Configuration pour le développement local
+        return {
+            'secure': False,
+            'samesite': 'Lax',
+            'httponly': True,
+            'path': '/',
+        }
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -217,17 +230,7 @@ def change_password_view(request):
         'message': 'Mot de passe changé avec succès'
     })
     
-    # Configuration des cookies pour la production
-    from django.conf import settings
-    is_production = not settings.DEBUG
-    
-    response.set_cookie(
-        'auth_token',
-        token.key,
-        max_age=86400,  # 24 heures
-        httponly=True,
-        secure=is_production,  # True en production avec HTTPS
-        samesite='None' if is_production else 'Lax'
-    )
+    # Utiliser la fonction get_cookie_params() pour une configuration cohérente
+    response.set_cookie('auth_token', token.key, max_age=86400, **get_cookie_params())
     
     return response

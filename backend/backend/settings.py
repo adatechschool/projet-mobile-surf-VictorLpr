@@ -161,7 +161,7 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOW_CREDENTIALS = True
 
-# Configuration supplémentaire pour CORS avec tokens
+# Configuration étendue pour CORS - importante pour les navigateurs mobiles
 CORS_ALLOWED_HEADERS = [
     'accept',
     'accept-encoding',
@@ -172,18 +172,30 @@ CORS_ALLOWED_HEADERS = [
     'user-agent',
     'x-csrftoken',
     'x-requested-with',
+    'cache-control',
+    'pragma',
 ]
 
 CORS_EXPOSE_HEADERS = [
     'content-type',
     'x-csrftoken',
+    'set-cookie',
 ]
+
+# Headers supplémentaires pour la compatibilité mobile
+CORS_ALLOW_ALL_ORIGINS = False  # Sécurité : toujours False en production
+CORS_PREFLIGHT_MAX_AGE = 86400  # Cache preflight requests pour 24h
 
 # Configuration des cookies sécurisés
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
 SESSION_COOKIE_SAMESITE = 'None' if not DEBUG else 'Lax'
 CSRF_COOKIE_SAMESITE = 'None' if not DEBUG else 'Lax'
+
+# Configuration spécifique pour les cookies en production
+if not DEBUG:
+    SESSION_COOKIE_DOMAIN = '.vercel.app'
+    CSRF_COOKIE_DOMAIN = '.vercel.app'
 
 # Configuration pour les tokens d'authentification
 AUTH_TOKEN_EXPIRY = None  # Les tokens n'expirent pas par défaut
@@ -194,3 +206,11 @@ TIME_ZONE = 'Europe/Paris'
 
 # Internationalisation
 LANGUAGE_CODE = 'fr-fr'
+
+# Headers de sécurité pour les navigateurs mobiles
+if not DEBUG:
+    SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin-allow-popups'
+    SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+    
+    # Important pour les PWA et les navigateurs mobiles
+    X_FRAME_OPTIONS = 'SAMEORIGIN'
